@@ -1,0 +1,255 @@
+.register-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+/* Left Panel */
+.left-panel {
+    flex: 1;
+    background-color: #e8f0fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.left-panel img {
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+}
+
+/* Right Panel */
+.right-panel {
+    flex: 1;
+    background-color: #f5f7fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    perspective: 1000px;
+}
+
+/* Card Container */
+.card-container {
+    width: 100%;
+    max-width: 450px;
+    min-height: 100%;
+    position: relative;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+/* Flip Effect */
+.card-container.flipped {
+    transform: rotateY(180deg);
+}
+
+.form-card {
+    width: 100%;
+    min-height: 550px;
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.front {
+    z-index: 2;
+}
+
+.back {
+    transform: rotateY(180deg);
+}
+
+/* Shared Form Styles */
+.register-form h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.8rem;
+    color: #4761a3;
+}
+
+.register-form label {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #4761a3;
+}
+
+.register-form input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: white;
+    color: #333;
+}
+
+input[type="date"] {
+    appearance: auto;
+    -webkit-appearance: auto;
+}
+
+.register-form button {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #4761a3;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.register-form button:hover {
+    background-color: #374d89;
+}
+
+.flip-link {
+    text-align: center;
+    margin-top: 15px;
+    color: #4761a3;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.form-card {
+    min-height: auto;
+    overflow-y: auto;
+}
+
+/* ------------------- Responsive Styles ------------------- */
+
+@media (max-width: 1024px) {
+    .register-container {
+        flex-direction: column;
+    }
+
+    .left-panel,
+    .right-panel {
+        width: 100%;
+        height: auto;
+    }
+
+    .left-panel img {
+        width: 70%;
+        max-width: 300px;
+    }
+
+    .card-container {
+        min-height: 100%;
+    }
+
+    .form-card {
+        min-height: auto;
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .register-form h2 {
+        font-size: 1.4rem;
+    }
+
+    .register-form label,
+    .register-form input,
+    .register-form button {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-form h2 {
+        font-size: 1.2rem;
+    }
+
+    .register-form label,
+    .register-form input,
+    .register-form button {
+        font-size: 0.85rem;
+    }
+
+    .flip-link {
+        font-size: 0.85rem;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .card-container {
+        max-width: 95%;
+    }
+
+    .register-form h2 {
+        font-size: 1.4rem;
+    }
+
+    .register-form label {
+        font-size: 0.9rem;
+    }
+
+    .register-form input {
+        font-size: 0.9rem;
+    }
+
+    .register-form button {
+        font-size: 0.9rem;
+        padding: 9px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .register-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .left-panel,
+    .right-panel {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+    }
+
+    .card-container {
+        width: 100%;
+        max-width: 100%;
+        min-height: auto;
+        height: auto;
+        transform: none !important;
+    }
+
+    .form-card {
+        position: static;
+        transform: none !important;
+        backface-visibility: visible;
+        box-shadow: none;
+        padding: 25px 20px;
+    }
+
+    .card-container.flipped .front {
+        display: none;
+    }
+
+    .card-container.flipped .back {
+        display: block;
+    }
+
+    .front,
+    .back {
+        display: block;
+    }
+}
