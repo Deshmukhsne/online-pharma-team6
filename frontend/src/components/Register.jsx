@@ -2,95 +2,52 @@ import React, { useState } from "react";
 import "./Register.css";
 
 function Register() {
-    const [isFlipped, setIsFlipped] = useState(false);
-
-    const [registerData, setRegisterData] = useState({
-        name: "",
-        email: "",
-        phone: "",
-        dob: "",
-        username: "",
-        password: "",
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        password: '',
+        username: '',
+        phone: '',
+        confirmPassword: '',
+        gender: '',
     });
 
-    const [loginData, setLoginData] = useState({
-        username: "",
-        password: "",
-    });
-
-    const handleRegisterChange = (e) => {
-        setRegisterData({ ...registerData, [e.target.name]: e.target.value });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleLoginChange = (e) => {
-        setLoginData({ ...loginData, [e.target.name]: e.target.value });
-    };
-
-    const handleRegisterSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Register Data:", registerData);
-    };
-
-    const handleLoginSubmit = (e) => {
-        e.preventDefault();
-        console.log("Login Data:", loginData);
+        alert(JSON.stringify(formData, null, 2));
     };
 
     return (
         <div className="register-container">
-            <div className="left-panel">
-                <img src="/src/assets/Images/register.png" alt="register" />
-            </div>
+            <form className="form-box" onSubmit={handleSubmit}>
+                <h2>Registration</h2>
+                <div className="input-grid">
+                    <input name="fullName" type="text" placeholder="Enter your name" onChange={handleChange} required />
+                    <input name="username" type="text" placeholder="Enter your username" onChange={handleChange} required />
+                    <input name="email" type="email" placeholder="Enter your email" onChange={handleChange} required />
+                    <input name="phone" type="tel" placeholder="Enter your number" onChange={handleChange} required />
+                    <input name="password" type="password" placeholder="Enter your password" onChange={handleChange} required />
+                    <input name="confirmPassword" type="password" placeholder="Confirm your password" onChange={handleChange} required />
+                </div>
 
-            <div className="right-panel">
-                <div className={`card-container ${isFlipped ? "flipped" : ""}`}>
-                    {/* Register Form */}
-                    <div className="form-card front">
-                        <form className="register-form" onSubmit={handleRegisterSubmit}>
-                            <h2>Register</h2>
-
-                            <label>Name</label>
-                            <input type="text" name="name" value={registerData.name} onChange={handleRegisterChange} placeholder="Enter your name" required />
-
-                            <label>Email ID</label>
-                            <input type="email" name="email" value={registerData.email} onChange={handleRegisterChange} placeholder="Enter your email" required />
-
-                            <label>Phone No</label>
-                            <input type="tel" name="phone" value={registerData.phone} onChange={handleRegisterChange} placeholder="Enter your phone number" required />
-
-                            <label>Date of Birth</label>
-                            <input type="date" name="dob" value={registerData.dob} onChange={handleRegisterChange} required />
-
-                            <label>Set Username</label>
-                            <input type="text" name="username" value={registerData.username} onChange={handleRegisterChange} placeholder="Enter your username" required />
-
-                            <label>Set Password</label>
-                            <input type="password" name="password" value={registerData.password} onChange={handleRegisterChange} placeholder="Enter your password" required />
-
-                            <button type="submit">Register</button>
-                            <p className="flip-link" onClick={() => setIsFlipped(true)}>Already Registered? Login</p>
-                        </form>
-                    </div>
-
-                    {/* Login Form */}
-                    <div className="form-card back">
-                        <form className="register-form" onSubmit={handleLoginSubmit}>
-                            <h2>Login</h2>
-
-                            <label>Username</label>
-                            <input type="text" name="username" value={loginData.username} onChange={handleLoginChange} placeholder="Enter your username" required />
-
-                            <label>Password</label>
-                            <input type="password" name="password" value={loginData.password} onChange={handleLoginChange} placeholder="Enter your password" required />
-
-                            <button type="submit">Login</button>
-                            <p className="flip-link" onClick={() => setIsFlipped(false)}>Don't have an account? Register</p>
-                        </form>
+                <div className="gender">
+                    <label>Gender</label>
+                    <div className="gender-options">
+                        <label><input type="radio" name="gender" value="Male" onChange={handleChange} /> Male</label>
+                        <label><input type="radio" name="gender" value="Female" onChange={handleChange} /> Female</label>
+                        <label><input type="radio" name="gender" value="Prefer not to say" onChange={handleChange} /> Prefer not to say</label>
                     </div>
                 </div>
-            </div>
+
+                <button type="submit" className="register-btn">Register</button>
+            </form>
         </div>
     );
-}
+};
 
 export default Register;
