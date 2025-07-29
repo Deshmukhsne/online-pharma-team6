@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import "./Register.css";
+import "../styles/Register.css";
+
+
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -45,6 +47,9 @@ function Register() {
                 </div>
 
                 <button type="submit" className="register-btn">Register</button>
+                <p className="register-link">
+                    Done registeration? <a href="/">Login now</a>
+                </p>
             </form>
         </div>
     );
