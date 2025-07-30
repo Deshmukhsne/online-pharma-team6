@@ -41,7 +41,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-container">
-      {/* Sidebar */}
+    
       <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
         <div className="logo-container">
           <h3 className="logo-text">Pharma Admin</h3>
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
         </button>
       </div>
 
-      {/* Main Content */}
+      
       <div className="main-content">
         <header className="admin-header">
           <div className="header-content">
