@@ -8,6 +8,13 @@ import ManageMembers from "./components/Admin/ManageMembers";
 import AddMember from "./components/Admin/AddMember";
 import AddDrug from "./components/Admin/AddDrug";
 
+import Profile from "./components/Member/Profile";
+import DrugSearch from "./components/Member/DrugSearch";
+import Cart from "./components/Member/Cart";
+import Orders from "./components/Member/Orders";
+
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -19,7 +26,14 @@ function App() {
         <Route path="/admin/members" element={<ManageMembers />} />
         <Route path="/admin/add-member" element={<AddMember />} />
         <Route path="/member" element={<MemberDashboard />} />
-        <Route path="/admin/add-drug" element={<AddDrug />} />
+           <Route path="/admin/add-drug" element={<AddDrug />} />
+
+        <Route path="/member/profile" element={<Profile />} />
+        <Route path="/member/search" element={<DrugSearch />} />
+        <Route path="/member/cart" element={<Cart />} />
+        <Route path="/member/orders" element={<Orders />
+        
+
 
       </Routes>
     </BrowserRouter>
