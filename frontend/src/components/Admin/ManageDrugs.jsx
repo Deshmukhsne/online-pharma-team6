@@ -66,15 +66,22 @@ function ManageDrug() {
                                     <td>₹{drug.price}</td>
                                     <td>{drug.stock}</td>
                                     <td>{drug.description}</td>
-                                    <td>{drug.image}</td>
+                                    <td>
+                                        {drug.image ? (
+                                            <img src={URL.createObjectURL(drug.image)} alt="Drug" style={{ width: 50, height: 50, objectFit: 'cover' }} />
+                                        ) : (
+                                            'N/A'
+                                        )}
+                                    </td>
                                     <td>
                                         <button onClick={() => handleDelete(index)} className="delete-btn">Delete</button>
                                     </td>
+
                                 </tr>
                             ))}
                             {drugs.length === 0 && (
                                 <tr>
-                                    <td colSpan="5" className="no-data">No drugs added yet.</td>
+                                    <td colSpan="6" className="no-data">No drugs added yet.</td>
                                 </tr>
                             )}
                         </tbody>

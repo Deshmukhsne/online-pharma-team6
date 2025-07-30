@@ -69,7 +69,7 @@ function AddMember() {
                             required
                         />
 
-                        <button type="submit" className="submit-btn">Add Member</button>
+                        <button type="submit" className="submit-btn" >Add Member</button>
                         {success && <div className="success-msg">🎉 Member added successfully!</div>}
                     </form>
                 </section>

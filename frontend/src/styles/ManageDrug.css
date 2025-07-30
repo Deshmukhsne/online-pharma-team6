@@ -13,6 +13,11 @@
     color: #333;
 }
 
+.drug-table img {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
 .drug-form {
     display: flex;
     flex-wrap: wrap;
