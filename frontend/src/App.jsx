@@ -20,11 +20,8 @@ function App() {
         <Route path="/member/search" element={<DrugSearch />} />
         <Route path="/member/cart" element={<Cart />} />
         <Route path="/member/orders" element={<Orders />} />
-        <Route path="/member/search" element={<DrugSearch />} />
-
       </Routes>
     </BrowserRouter>
-
   );
 }
 
