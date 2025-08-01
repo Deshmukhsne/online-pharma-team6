@@ -1,6 +1,7 @@
-// src/components/Member/DrugSearch.jsx
 import React, { useState } from "react";
-import { getDrugById, getDrugByName } from "../../services/api";
+import MemberSidebar from "./MemberSidebar";
+import { FaSearch } from "react-icons/fa";
+import "../../styles/DrugSearch.css";
 
 const DrugSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -8,49 +9,77 @@ const DrugSearch = () => {
   const [drug, setDrug] = useState(null);
   const [error, setError] = useState("");
 
+  // Mock API simulation
+  const getDrugById = async (id) => {
+    const mock = { id: 1, name: "Paracetamol", price: 50, quantity: 30 };
+    if (id === "1") return { data: mock };
+    throw new Error();
+  };
+
+  const getDrugByName = async (name) => {
+    const mock = { id: 2, name: "Cetrizine", price: 30, quantity: 20 };
+    if (name.toLowerCase() === "cetrizine") return { data: mock };
+    throw new Error();
+  };
+
   const handleSearch = async () => {
     setError("");
     setDrug(null);
     try {
-      if (searchType === "id") {
-        const response = await getDrugById(searchTerm);
-        setDrug(response.data);
-      } else {
-        const response = await getDrugByName(searchTerm);
-        setDrug(response.data);
-      }
-    } catch (err) {
+      const response =
+        searchType === "id"
+          ? await getDrugById(searchTerm)
+          : await getDrugByName(searchTerm);
+      setDrug(response.data);
+    } catch {
       setError("Drug not found.");
     }
   };
 
   return (
-    <div className="container">
-      <h2>Search Drug</h2>
-      <div style={{ marginBottom: "15px" }}>
-        <select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-          <option value="id">Search by ID</option>
-          <option value="name">Search by Name</option>
-        </select>
-        <input
-          type="text"
-          placeholder={`Enter drug ${searchType}`}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
+    <div className="drugsearch-layout">
+      <div className="drugsearch-sidebar">
+        <MemberSidebar />
       </div>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      <div className="drugsearch-main">
+        <header className="drugsearch-header">
+          <FaSearch className="drugsearch-icon" />
+          <h2>Search Drug</h2>
+        </header>
 
-      {drug && (
-        <div style={{ border: "1px solid #ccc", padding: "15px", borderRadius: "8px" }}>
-          <h3>{drug.name}</h3>
-          <p><strong>Price:</strong> ₹{drug.price}</p>
-          <p><strong>Quantity Available:</strong> {drug.quantity}</p>
-          <button>Add to Cart</button>
+        <div className="drugsearch-card">
+          <div className="search-form">
+            <select
+              value={searchType}
+              onChange={(e) => setSearchType(e.target.value)}
+            >
+              <option value="id">Search by ID</option>
+              <option value="name">Search by Name</option>
+            </select>
+
+            <input
+              type="text"
+              placeholder={`Enter drug ${searchType}`}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+
+            <button onClick={handleSearch}>Search</button>
+          </div>
+
+          {error && <p className="error-msg">{error}</p>}
+
+          {drug && (
+            <div className="drug-info">
+              <h3>{drug.name}</h3>
+              <p><strong>Price:</strong> ₹{drug.price}</p>
+              <p><strong>Quantity Available:</strong> {drug.quantity}</p>
+              <button className="add-cart-btn">Add to Cart</button>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
