@@ -1,13 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminSidebar from "./AdminSidebar";
 import "../../styles/AdminDashboard.css";
 import { FaUsers, FaPills, FaClipboardList, FaArrowRight } from "react-icons/fa";
-
-const stats = [
-    { label: "Total Users", value: 120, icon: <FaUsers style={{ color: '#1abc9c' }} /> },
-    { label: "Total Drugs", value: 58, icon: <FaPills style={{ color: '#3498db' }} /> },
-    { label: "Total Orders", value: 340, icon: <FaClipboardList style={{ color: '#e67e22' }} /> },
-];
 
 const quickLinks = [
     { label: "Manage Drugs", icon: <FaPills />, to: "#" },
@@ -23,6 +17,32 @@ const recentActivity = [
 
 const AdminDashboard = () => {
     const [collapsed, setCollapsed] = useState(true);
+    const [stats, setStats] = useState([
+        { label: "Total Users", value: 120, icon: <FaUsers style={{ color: '#1abc9c' }} /> },
+        { label: "Total Drugs", value: 0, icon: <FaPills style={{ color: '#3498db' }} /> },
+        { label: "Total Orders", value: 340, icon: <FaClipboardList style={{ color: '#e67e22' }} /> },
+    ]);
+
+    useEffect(() => {
+        const fetchDrugCount = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/api/drugs/count');
+                if (!response.ok) throw new Error('Failed to fetch drug count');
+                const count = await response.json();
+
+                setStats(prevStats =>
+                    prevStats.map(stat =>
+                        stat.label === 'Total Drugs' ? { ...stat, value: count } : stat
+                    )
+                );
+            } catch (error) {
+                console.error("Error fetching drug count:", error);
+            }
+        };
+
+        fetchDrugCount();
+    }, []);
+
     return (
         <div className="admin-dashboard-root">
             <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
