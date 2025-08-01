@@ -1,140 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import './AdminDashboard.css';
+import React, { useState } from "react";
+import AdminSidebar from "./AdminSidebar";
+import "../../styles/AdminDashboard.css";
+import { FaUsers, FaPills, FaClipboardList, FaArrowRight } from "react-icons/fa";
+
+const stats = [
+    { label: "Total Users", value: 120, icon: <FaUsers style={{ color: '#1abc9c' }} /> },
+    { label: "Total Drugs", value: 58, icon: <FaPills style={{ color: '#3498db' }} /> },
+    { label: "Total Orders", value: 340, icon: <FaClipboardList style={{ color: '#e67e22' }} /> },
+];
+
+const quickLinks = [
+    { label: "Manage Drugs", icon: <FaPills />, to: "#" },
+    { label: "Manage Members", icon: <FaUsers />, to: "#" },
+    { label: "View Orders", icon: <FaClipboardList />, to: "#" },
+];
+
+const recentActivity = [
+    { id: 1, action: "Order #1234 placed", time: "2 mins ago" },
+    { id: 2, action: "User JohnDoe registered", time: "10 mins ago" },
+    { id: 3, action: "Drug Paracetamol updated", time: "1 hour ago" },
+];
 
 const AdminDashboard = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const [drugs, setDrugs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchDrugs = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch('http://localhost:8080/api/drugs');
-      if (!response.ok) {
-        throw new Error(`Server responded with ${response.status}`);
-      }
-      const data = await response.json();
-      setDrugs(data);
-    } catch (err) {
-      setError(`Failed to load data: ${err.message}`);
-      console.error('Fetch error:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchDrugs();
-  }, []);
-
-  const toggleSidebar = () => {
-    setCollapsed(!collapsed);
-  };
-
-  const DrugStatus = ({ quantity }) => (
-    <span className={`status ${quantity === 0 ? 'out' : 'available'}`}>
-      {quantity === 0 ? 'Out of Stock' : 'Available'}
-    </span>
-  );
-
-  return (
-    <div className="admin-container">
-    
-      <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
-        <div className="logo-container">
-          <h3 className="logo-text">Pharma Admin</h3>
+    const [collapsed, setCollapsed] = useState(true);
+    return (
+        <div className="admin-dashboard-root">
+            <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+            <main
+                className="admin-main-content"
+                style={{ marginLeft: collapsed ? 60 : 250, width: `calc(100vw - ${collapsed ? 60 : 250}px)` }}
+            >
+                <header className="admin-header">
+                    <div className="admin-title">Welcome to Admin Dashboard</div>
+                    <div className="admin-user">
+                        <span className="admin-avatar">A</span>
+                        <span style={{ fontWeight: 500, color: '#333' }}>Admin</span>
+                    </div>
+                </header>
+                <section className="admin-stats">
+                    {stats.map((stat) => (
+                        <div className="admin-stat-card" key={stat.label}>
+                            <div style={{ fontSize: '2.2rem', marginBottom: 8 }}>{stat.icon}</div>
+                            <div className="admin-stat-label">{stat.label}</div>
+                            <div className="admin-stat-value">{stat.value}</div>
+                        </div>
+                    ))}
+                </section>
+                <section className="admin-quicklinks">
+                    {quickLinks.map((link) => (
+                        <a className="admin-quicklink-card" href={link.to} key={link.label}>
+                            <span>{link.icon}</span>
+                            <span>{link.label}</span>
+                            <FaArrowRight style={{ marginLeft: 10, fontSize: '1.1rem' }} />
+                        </a>
+                    ))}
+                </section>
+                <section className="admin-activity">
+                    <h2>Recent Activity</h2>
+                    <ul>
+                        {recentActivity.map((item) => (
+                            <li key={item.id}>
+                                <span className="activity-action">{item.action}</span>
+                                <span className="activity-time">{item.time}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            </main>
         </div>
-        
-        <div className="menu">
-          <div className="menu-item active">
-            <span className="menu-icon">📊</span>
-            {!collapsed && <span className="menu-label">Dashboard</span>}
-          </div>
-        </div>
-        
-        <button className="collapse-btn" onClick={toggleSidebar}>
-          {collapsed ? '→' : '←'}
-        </button>
-      </div>
-
-      
-      <div className="main-content">
-        <header className="admin-header">
-          <div className="header-content">
-            <button className="menu-toggle" onClick={toggleSidebar}>
-              ☰
-            </button>
-            <div className="header-right">
-              <span className="user-info">Admin</span>
-            </div>
-          </div>
-        </header>
-        
-        <div className="content-area">
-          <h2 className="dashboard-title">Drug Inventory</h2>
-          
-          {error && (
-            <div className="error-message">
-              <p>{error}</p>
-              <p>Please ensure the backend server is running</p>
-              <button className="retry-btn" onClick={fetchDrugs}>
-                Retry
-              </button>
-            </div>
-          )}
-          
-          {loading && !error && (
-            <div className="loading-message">
-              <div className="spinner"></div>
-              <p>Loading drug data...</p>
-            </div>
-          )}
-          
-          {!loading && !error && drugs.length === 0 && (
-            <div className="no-data">
-              <p>No drugs found in inventory</p>
-              <button className="retry-btn" onClick={fetchDrugs}>
-                Refresh
-              </button>
-            </div>
-          )}
-          
-          {!loading && !error && drugs.length > 0 && (
-            <div className="drugs-table-container">
-              <table className="drugs-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Company</th>
-                    <th>Type</th>
-                    <th>Price (₹)</th>
-                    <th>Quantity</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {drugs.map(drug => (
-                    <tr key={drug.id}>
-                      <td>{drug.id}</td>
-                      <td>{drug.name}</td>
-                      <td>{drug.company}</td>
-                      <td>{drug.type}</td>
-                      <td>{drug.price.toFixed(2)}</td>
-                      <td>{drug.quantity}</td>
-                      <td><DrugStatus quantity={drug.quantity} /></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default AdminDashboard;

@@ -1,0 +1,137 @@
+:root {
+  --member-primary: #3498db;
+  --member-secondary: #1abc9c;
+  --member-bg: #f8fafd;
+  --member-card-bg: #fff;
+  --member-border: #e0e6ed;
+  --member-shadow: 0 2px 12px rgba(52, 152, 219, 0.1);
+  --member-radius: 16px;
+  --member-sidebar-width: 240px;
+}
+
+.member-dashboard-root {
+  min-height: 100vh;
+  background: var(--member-bg);
+  display: flex;
+  flex-direction: row;
+}
+
+.member-main-content {
+  flex: 1;
+  padding: 40px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.member-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.member-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--member-primary);
+}
+
+.member-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.member-stat-card {
+  background: var(--member-card-bg);
+  border-radius: var(--member-radius);
+  box-shadow: var(--member-shadow);
+  padding: 28px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 220px;
+  flex: 1 1 220px;
+  gap: 12px;
+  border: 1px solid var(--member-border);
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+
+.member-stat-card:hover {
+  box-shadow: 0 6px 24px rgba(52, 152, 219, 0.13);
+  transform: translateY(-4px) scale(1.03);
+}
+
+.member-stat-label {
+  font-size: 1.1rem;
+  color: #888;
+}
+
+.member-stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.member-medicine-list {
+  background: var(--member-card-bg);
+  padding: 20px;
+  border-radius: var(--member-radius);
+  box-shadow: var(--member-shadow);
+  border: 1px solid var(--member-border);
+  overflow-x: auto;
+}
+
+.table-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--member-primary);
+}
+
+.medicine-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.medicine-table th,
+.medicine-table td {
+  border: 1px solid #ddd;
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.medicine-table th {
+  background-color: #ecf0f1;
+  font-weight: 600;
+  color: #333;
+}
+
+.medicine-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+@media (max-width: 600px) {
+  .member-main-content {
+    padding: 24px 16px;
+  }
+
+  .member-stats,
+  .member-quicklinks {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .member-stat-card,
+  .member-quicklink-card {
+    width: 100%;
+  }
+
+  .medicine-table th,
+  .medicine-table td {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
