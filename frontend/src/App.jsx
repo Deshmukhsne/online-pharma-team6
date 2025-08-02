@@ -7,6 +7,8 @@ import Profile from "./components/Member/Profile";
 import DrugSearch from "./components/Member/DrugSearch";
 import Cart from "./components/Member/Cart";
 import Orders from "./components/Member/Orders";
+import ForgotPassword from "./pages/ForgotPassword";
+
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/member/search" element={<DrugSearch />} />
         <Route path="/member/cart" element={<Cart />} />
         <Route path="/member/orders" element={<Orders />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
       </Routes>
     </BrowserRouter>
   );

@@ -41,9 +41,13 @@ function Login() {
                     />
                 </div>
                 <button type="submit" className="login-btn">Login</button>
-                <p className="register-link">
-                    Not registered? <a href="/register">Register now</a>
-                </p>
+                <div className="login-links">
+  <a href="/forgot-password">Forgot Password?</a>
+  <span>|</span>
+  <a href="/register">Register now</a>
+</div>
+
+                
             </form>
         </div>
     );

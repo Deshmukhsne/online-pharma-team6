@@ -70,3 +70,21 @@ body {
 .login-btn:hover {
     background: linear-gradient(to right, #2575fc, #6a11cb);
 }
+
+.login-links {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  font-size: 0.95rem;
+}
+
+.login-links a {
+  text-decoration: none;
+  color: #3f51b5;
+  font-weight: 500;
+}
+
+.login-links a:hover {
+  text-decoration: underline;
+}
