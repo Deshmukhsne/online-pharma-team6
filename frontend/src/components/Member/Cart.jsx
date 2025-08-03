@@ -1,57 +1,56 @@
-
-
 import React, { useEffect, useState } from "react";
 import MemberSidebar from "./Membersidebar";
 import { FaShoppingCart, FaTrashAlt } from "react-icons/fa";
 import axios from "axios";
 import "../../styles/Cart.css";
+import { initiatePayment } from "./RazorpayPayment";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
-  const memberId = localStorage.getItem("memberId"); 
+  const memberId = localStorage.getItem("memberId");
 
-  
   const loadCart = async () => {
     try {
-      const res = await axios.get("http://localhost:8081/api/cart/all");
+      const res = await axios.get("http://localhost:8080/api/cart/all");
       setCart(res.data);
     } catch (error) {
       console.error("Failed to fetch cart items", error);
     }
   };
 
-  
   const handleRemove = async (id) => {
     try {
-      await axios.delete(`http://localhost:8081/api/cart/delete/${id}`);
+      await axios.delete(`http://localhost:8080/api/cart/delete/${id}`);
       loadCart();
     } catch (error) {
       console.error("Failed to delete cart item", error);
     }
   };
 
-  
   const placeOrder = async () => {
-    try {
-      const orderData = cart.map((item) => ({
-        memberId: memberId,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-        status: "placed"
-      }));
+    initiatePayment({
+      amount: totalPrice,
+      onSuccess: async (response) => {
+        try {
+          const orderData = cart.map((item) => ({
+            memberId: memberId,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            status: "placed",
+          }));
 
-      await axios.post("http://localhost:8081/api/orders/place", orderData);
+          await axios.post("http://localhost:8080/api/orders/place", orderData);
+          await axios.delete("http://localhost:8080/api/cart/clear/" + memberId);
 
-      
-      await axios.delete("http://localhost:8081/api/cart/clear/" + memberId);
-
-      alert("Order placed successfully!");
-      loadCart();
-    } catch (error) {
-      console.error("Failed to place order", error);
-      alert("Failed to place order");
-    }
+          alert("Payment & Order placed successfully! ID: " + response.razorpay_payment_id);
+          loadCart();
+        } catch (error) {
+          console.error("Failed to place order", error);
+          alert("Something went wrong while placing the order.");
+        }
+      },
+    });
   };
 
   const totalPrice = cart.reduce(
@@ -117,7 +116,7 @@ const Cart = () => {
 
             <div className="cart-actions">
               <button className="place-order-btn" onClick={placeOrder}>
-                Place Order
+                Pay ₹{totalPrice} / Place Order
               </button>
             </div>
           </div>

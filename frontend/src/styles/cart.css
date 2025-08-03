@@ -1,5 +1,7 @@
 
-
+*{
+  width:100%;
+}
 .cart-layout {
   display: flex;
   min-height: 100vh;
@@ -45,7 +47,7 @@
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  width: 100%;
+  
 }
 
 .table-container {

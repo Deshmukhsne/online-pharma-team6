@@ -14,19 +14,19 @@ const MemberDashboard = () => {
   const memberId = localStorage.getItem("memberId");
 
   useEffect(() => {
-    axios.get("http://localhost:8081/api/medicines/available-count")
+    axios.get("http://localhost:8080/api/medicines/available-count")
       .then(res => setMedCount(res.data))
       .catch(err => console.error("Error fetching medicine count:", err));
 
-    axios.get("http://localhost:8081/api/orders/count?memberId=" + memberId)
+    axios.get("http://localhost:8080/api/orders/count?memberId=" + memberId)
       .then(res => setOrderCount(res.data))
       .catch(err => console.error("Error fetching order count:", err));
 
-    axios.get("http://localhost:8081/api/medicines/cart-count?memberId=" + memberId)
+    axios.get("http://localhost:8080/api/medicines/cart-count?memberId=" + memberId)
       .then(res => setCartCount(res.data))
       .catch(err => console.error("Error fetching cart count:", err));
 
-    axios.get("http://localhost:8081/api/medicines/all")
+    axios.get("http://localhost:8080/api/medicines/all")
       .then(res => setMedicines(res.data))
       .catch(err => console.error("Error fetching medicine list:", err));
   }, [memberId]);
@@ -38,11 +38,11 @@ const MemberDashboard = () => {
       quantity: 1
     };
 
-    axios.post("http://localhost:8081/api/cart/add", cartItem)
+    axios.post("http://localhost:8080/api/cart/add", cartItem)
       .then(() => {
         alert("Added to cart successfully!");
         // Refresh cart count
-        axios.get("http://localhost:8081/api/medicines/cart-count?memberId=" + memberId)
+        axios.get("http://localhost:8080/api/medicines/cart-count?memberId=" + memberId)
           .then(res => setCartCount(res.data));
       })
       .catch(err => {

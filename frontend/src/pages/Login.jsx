@@ -41,9 +41,11 @@ function Login() {
                     />
                 </div>
                 <button type="submit" className="login-btn">Login</button>
+                <p className="fpass"><a href="/ForgotPassword" >Forgot password </a></p>
                 <p className="register-link">
                     Not registered? <a href="/register">Register now</a>
                 </p>
+
             </form>
         </div>
     );

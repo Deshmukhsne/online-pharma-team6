@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import MemberSidebar from './Membersidebar';
-import { FaClipboardList } from 'react-icons/fa';
-import '../../styles/Orders.css';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import MemberSidebar from "./Membersidebar";
+import { FaClipboardList } from "react-icons/fa";
+import "../../styles/Orders.css";
+import axios from "axios";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8081/api/orders/all')
-      .then(response => setOrders(response.data))
-      .catch(error => console.error("Failed to fetch orders", error));
+    axios
+      .get("http://localhost:8080/api/orders/all")
+      .then((response) => setOrders(response.data))
+      .catch((error) => console.error("Failed to fetch orders", error));
   }, []);
 
   return (
@@ -21,8 +22,10 @@ const Orders = () => {
 
       <div className="orders-main">
         <header className="orders-header">
-          <FaClipboardList className="orders-icon" />
-          <h2>My Orders</h2>
+          <div className="orders-logo">
+            <FaClipboardList className="orders-icon" />
+            <h2>My Orders</h2>
+          </div>
         </header>
 
         <div className="orders-card">
@@ -40,11 +43,11 @@ const Orders = () => {
               <tbody>
                 {orders.map((order, idx) => (
                   <tr key={order.id}>
-                    <td>{idx + 1}</td>
-                    <td>{order.name}</td>
-                    <td>{order.quantity}</td>
-                    <td>₹{order.price}</td>
-                    <td>{order.status}</td>
+                    <td data-label="#"> {idx + 1} </td>
+                    <td data-label="Medicine Name">{order.name}</td>
+                    <td data-label="Quantity">{order.quantity}</td>
+                    <td data-label="Total Price">₹{order.price}</td>
+                    <td data-label="Status">{order.status}</td>
                   </tr>
                 ))}
               </tbody>
