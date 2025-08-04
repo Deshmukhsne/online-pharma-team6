@@ -69,4 +69,4 @@ An online platform for users to order medicines/drugs securely. The system suppo
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/online-pharmacy-portal.git
+   git clone https://github.com/Deshmukhsne/online-pharma-team6.git
