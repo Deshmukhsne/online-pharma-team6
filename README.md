@@ -61,8 +61,9 @@ An online platform for users to order medicines/drugs securely. The system suppo
 - Java (JDK 8+)
 - MySQL/MariaDB
 - Apache Tomcat (if using JSP/Servlets)
-- Maven/Gradle (optional)
+- Maven 
 - VS Code / IntelliJ IDEA
+- React(Vite)
 
 ### Setup Instructions
 
