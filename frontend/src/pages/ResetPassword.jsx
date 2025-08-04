@@ -13,14 +13,14 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get email from navigation state if available
+ 
   useEffect(() => {
     if (location.state?.email) {
       setEmail(location.state.email);
     }
   }, [location.state]);
 
-  // Mock API function for development
+  
   const mockResetPassword = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -35,7 +35,7 @@ const ResetPassword = () => {
     setError("");
     setSuccess(false);
 
-    // Client-side validation
+    
     if (!email || !newPassword || !confirmPassword) {
       setError("Please fill in all fields");
       setIsLoading(false);
@@ -57,7 +57,7 @@ const ResetPassword = () => {
     try {
       let response;
       
-      // Try real API first
+      
       try {
         response = await axios.post(
           "http://localhost:8080/api/members/reset-password",

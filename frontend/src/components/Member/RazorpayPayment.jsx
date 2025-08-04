@@ -1,4 +1,4 @@
-// src/components/RazorpayPayment.jsx
+
 
 export function loadRazorpayScript() {
   return new Promise((resolve) => {

@@ -41,7 +41,7 @@ const MemberDashboard = () => {
     axios.post("http://localhost:8080/api/cart/add", cartItem)
       .then(() => {
         alert("Added to cart successfully!");
-        // Refresh cart count
+      
         axios.get("http://localhost:8080/api/medicines/cart-count?memberId=" + memberId)
           .then(res => setCartCount(res.data));
       })

@@ -32,7 +32,7 @@ const ForgotPassword = () => {
     setSuccess(false);
 
     try {
-      // Try real API first
+      
       let response;
       try {
         response = await axios.post(
@@ -40,7 +40,7 @@ const ForgotPassword = () => {
           { email },
           {
             headers: { "Content-Type": "application/json" },
-            timeout: 5000 // 5 second timeout
+            timeout: 5000 
           }
         );
       } catch (apiError) {
@@ -50,7 +50,7 @@ const ForgotPassword = () => {
 
       if (response.data.success) {
         setSuccess(true);
-        // Auto-navigate after 2 seconds to show success message
+        
         setTimeout(() => {
           navigate("/reset-password", { state: { email } });
         }, 2000);
