@@ -13,15 +13,8 @@ public class Medicine {
     private int availableQuantity;
     private double price;
     private String company ;
-    private String type ;
-    
-    
-    
-    
-    
-
-   
-    
+    private String type ;   
+  
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -40,8 +33,4 @@ public class Medicine {
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
 
-    
-    
-    
-    
 }

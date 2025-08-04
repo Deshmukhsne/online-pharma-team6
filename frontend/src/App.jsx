@@ -12,8 +12,10 @@ import ResetPassword from "./pages/ResetPassword"
 
 function App() {
   return (
+    
     <BrowserRouter>
       <Routes>
+        
         <Route path="/Login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<AdminDashboard />} />

@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MemberSidebar from "./Membersidebar";
 import "../../styles/Profile.css";
 import { FaUser } from "react-icons/fa";
 
 const Profile = () => {
-  const [profile, setProfile] = useState({
-    name: "Revanth Nuti",
-    email: "revanth@example.com",
-    mobile: "9876543210",
-    address: "Hyderabad, Telangana",
-  });
+  const memberId = localStorage.getItem("memberId");
+  const [profile, setProfile] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (memberId) {
+      fetch(`http://localhost:8080/api/members/${memberId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setProfile(data);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.error("Failed to load profile", err);
+          setIsLoading(false);
+        });
+    }
+  }, [memberId]);
 
   const handleChange = (e) => {
     setProfile({
@@ -18,19 +30,36 @@ const Profile = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Profile updated successfully!");
+    try {
+      const response = await fetch(`http://localhost:8080/api/members/${memberId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(profile),
+      });
+      if (response.ok) {
+        alert("Profile updated successfully!");
+      } else {
+        alert("Failed to update profile");
+      }
+    } catch (err) {
+      alert("Server error");
+    }
   };
+
+  if (isLoading) {
+    return <div>Loading profile...</div>;
+  }
 
   return (
     <div className="profile-layout">
-      
       <div className="profile-sidebar">
         <MemberSidebar />
       </div>
 
-      
       <div className="profile-main">
         <header className="profile-header">
           <FaUser className="profile-icon" />
