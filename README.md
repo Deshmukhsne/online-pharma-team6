@@ -51,17 +51,6 @@ An online platform for users to order medicines/drugs securely. The system suppo
 
 ---
 
-## 📌 Use Case Diagram
-
-> Include the diagram image here if you have it (`/docs/use_case.png` for example)
-
----
-
-## 🧱 Class Diagram
-
-> Include the class diagram image here if available (`/docs/class_diagram.png`)
-
----
 
 
 ---
