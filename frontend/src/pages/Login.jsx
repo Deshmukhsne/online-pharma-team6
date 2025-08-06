@@ -29,12 +29,23 @@ function Login() {
 
             if (response.ok) {
                 const user = await response.json();
-                localStorage.setItem("memberId", user.id);
-                navigate("/member");
+
+                if (user.disabled === true) {
+                    localStorage.setItem("memberId", user.id);
+
+                    // ✅ Redirect based on role
+                    if (user.role === "ADMIN" || user.role === "A") {
+                        navigate("/admin");
+                    } else {
+                        navigate("/member");
+                    }
+                } else {
+                    alert("Wait for admin approval before logging in.");
+                }
             } else if (response.status === 401) {
                 alert("Invalid password");
             } else if (response.status === 403) {
-                alert("Access denied: User not approved or disabled");
+                alert("Wait for approval");
             } else if (response.status === 404) {
                 alert("User not found");
             } else {

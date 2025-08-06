@@ -1,4 +1,4 @@
-
+/* New Admin Dashboard Styles */
 
 :root {
     --admin-primary: #1abc9c;
@@ -231,19 +231,4 @@
         min-width: 0;
         width: 100%;
     }
-}
-
-.add-to-cart-btn {
-  background-color: #28a745;
-  border: none;
-  color: white;
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.add-to-cart-btn:hover {
-  background-color: #218838;
 }

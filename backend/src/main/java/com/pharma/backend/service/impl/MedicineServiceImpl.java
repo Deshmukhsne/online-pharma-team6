@@ -32,6 +32,37 @@ public class MedicineServiceImpl implements MedicineService {
     public List<Medicine> getAllMedicines() {
         return medicineRepository.findAll();
     }
-    
-    
+
+    @Override
+    public Medicine saveMedicine(Medicine medicine, Object imageFile) {
+        // Skipping image saving for now, handle separately if needed
+        return medicineRepository.save(medicine);
+    }
+
+    @Override
+    public long getMedicineCount() {
+        return medicineRepository.count(); // Standard JPA method
+    }
+
+    @Override
+    public Medicine updateMedicine(Medicine medicine) {
+        if (!medicineRepository.existsById(medicine.getId())) {
+            throw new RuntimeException("Medicine not found with id: " + medicine.getId());
+        }
+        return medicineRepository.save(medicine);
+    }
+
+    @Override
+    public void deleteMedicine(Long id) {
+        if (!medicineRepository.existsById(id)) {
+            throw new RuntimeException("Medicine not found with id: " + id);
+        }
+        medicineRepository.deleteById(id);
+    }
+
+    @Override
+    public Medicine findById(Long id) {
+        return medicineRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Medicine not found with id: " + id));
+    }
 }

@@ -23,8 +23,8 @@ const Orders = () => {
       <div className="orders-main">
         <header className="orders-header">
           <div className="orders-logo">
-            <FaClipboardList className="orders-icon" />
-            <h2>My Orders</h2>
+            
+            <h2 className="heading1">My Orders</h2>
           </div>
         </header>
 

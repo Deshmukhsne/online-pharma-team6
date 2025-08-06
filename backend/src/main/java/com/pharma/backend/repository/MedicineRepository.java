@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 
-    @Query("SELECT COUNT(m) FROM Medicine m WHERE m.availableQuantity >= 0")
+   
+    @Query("SELECT COUNT(m) FROM Medicine m WHERE m.availableQuantity > 0")
     long countAvailableMedicines();
 }
