@@ -9,6 +9,11 @@ import Orders from "./components/Member/Orders";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword"
 
+import ManageMembers from "./components/Admin/ManageMembers";
+import AddDrug from "./components/Admin/AddDrug";
+import ManageDrugs from "./components/Admin/ManageDrugs";
+import ManageOrder from './components/Admin/ManageOrder';
+
 
 function App() {
   return (
@@ -25,6 +30,11 @@ function App() {
         <Route path="/member/orders" element={<Orders />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+
+        <Route path="/admin/members" element={<ManageMembers />} />
+         <Route path="/admin/add-drug" element={<AddDrug />} />
+         <Route path="/admin/drugs" element={<ManageDrugs />} />
+         <Route path="/admin/manage-orders" element={<ManageOrder />} />
 
       </Routes>
     </BrowserRouter>

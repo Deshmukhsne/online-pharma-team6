@@ -136,3 +136,18 @@
         border-radius: 0 18px 18px 0;
     }
 }
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.nav-links {
+    flex-grow: 1;
+}
+
+.logout-link {
+    margin-bottom: 10px;
+    /* optional spacing */
+}

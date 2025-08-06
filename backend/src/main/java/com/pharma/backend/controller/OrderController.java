@@ -1,4 +1,3 @@
-
 package com.pharma.backend.controller;
 
 import com.pharma.backend.model.CartItem;
@@ -14,7 +13,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173", 
+             methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.OPTIONS},
+             allowedHeaders = "*")
 public class OrderController {
 
     @Autowired
@@ -26,7 +27,7 @@ public class OrderController {
     @Autowired
     private CartRepository cartRepository;
 
-    
+   
     @GetMapping("/count")
     public long getOrdersCount() {
         return orderService.getOrdersCount();
@@ -55,11 +56,35 @@ public class OrderController {
         cartRepository.deleteAll(); 
         return ResponseEntity.ok("Order placed successfully");
     }
+
     
- 
     @GetMapping("/all")
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
+    
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Object> updateOrderStatus(@PathVariable Long id, @RequestBody StatusUpdateRequest request) {
+        return ResponseEntity.ok(orderService.updateOrderStatus(id, request.getStatus()));
+    }
+
+    
+    @RequestMapping(method = RequestMethod.OPTIONS, value = "/**")
+    public ResponseEntity<?> handleOptions() {
+        return ResponseEntity.ok().build();
+    }
+
+    
+    public static class StatusUpdateRequest {
+        private String status;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+    }
 }

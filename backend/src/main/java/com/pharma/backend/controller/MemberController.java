@@ -37,11 +37,20 @@ public class MemberController {
         return ResponseEntity.ok(count);
     }
 
-    
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Member member) {
         try {
+            if (member.getName() == null || member.getEmail() == null ||
+                member.getMobile() == null || member.getAddress() == null ||
+                member.getPassword() == null || member.getDob() == null) {
+                return ResponseEntity.badRequest().body("Missing required fields.");
+            }
+
             member.setPassword(passwordEncoder.encode(member.getPassword()));
+            member.setApproved(false);
+            member.setDisabled(true); 
+            member.setRole("MEMBER");
+
             Member savedMember = service.addMember(member);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedMember);
         } catch (Exception e) {
@@ -50,19 +59,45 @@ public class MemberController {
     }
 
     @PostMapping
-    public Member add(@RequestBody Member member) {
+    public ResponseEntity<Member> add(@RequestBody Member member) {
+        if (member.getName() == null || member.getEmail() == null ||
+            member.getMobile() == null || member.getAddress() == null ||
+            member.getPassword() == null || member.getDob() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         member.setPassword(passwordEncoder.encode(member.getPassword()));
-        return service.addMember(member);
+        member.setApproved(false);
+        member.setDisabled(true); 
+        member.setRole("MEMBER");
+
+        return ResponseEntity.ok(service.addMember(member));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteMember(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/status")
-    public Member updateStatus(@PathVariable Long id, @RequestParam String status) {
-        return service.updateStatus(id, status);
+    public ResponseEntity<Member> updateStatus(@PathVariable Long id, @RequestParam String status) {
+        Optional<Member> optionalMember = service.findById(id);
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            if (status.equalsIgnoreCase("Approved")) {
+                member.setApproved(true);
+                member.setDisabled(false); 
+            } else if (status.equalsIgnoreCase("Declined")) {
+                member.setApproved(false);
+                member.setDisabled(true); 
+            } else {
+                member.setApproved(false);
+                member.setDisabled(true); 
+            }
+            return ResponseEntity.ok(service.addMember(member));
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/login")
@@ -82,37 +117,33 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid password");
         }
 
-        if (!member.isApproved()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User not approved");
-        }
-
         if (member.isDisabled()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User account is disabled");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Wait for approval");
         }
 
         return ResponseEntity.ok(member);
     }
 
-   
     @GetMapping("/{id}")
     public ResponseEntity<?> getMemberById(@PathVariable Long id) {
         Optional<Member> member = service.findById(id);
-        return member.map(ResponseEntity::ok)
-                     .orElseThrow();
+        return member.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProfile(@PathVariable Long id, @RequestBody Member updatedData) {
         Optional<Member> existing = service.findById(id);
         if (existing.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
+
         Member member = existing.get();
-        member.setName(updatedData.getName());
-        member.setEmail(updatedData.getEmail());
-        member.setMobile(updatedData.getMobile());
-        member.setAddress(updatedData.getAddress());
+        if (updatedData.getName() != null) member.setName(updatedData.getName());
+        if (updatedData.getEmail() != null) member.setEmail(updatedData.getEmail());
+        if (updatedData.getMobile() != null) member.setMobile(updatedData.getMobile());
+        if (updatedData.getAddress() != null) member.setAddress(updatedData.getAddress());
+        if (updatedData.getDob() != null) member.setDob(updatedData.getDob());
+        if (updatedData.getRole() != null) member.setRole(updatedData.getRole());
 
         Member updated = service.addMember(member);
         return ResponseEntity.ok(updated);

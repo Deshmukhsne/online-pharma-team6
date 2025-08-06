@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert";
-import { FaBars, FaTachometerAlt, FaPills, FaUsers, FaSignOutAlt } from "react-icons/fa";
+import { FaBars, FaTachometerAlt, FaPills, FaUsers, FaSignOutAlt, FaClipboardList } from "react-icons/fa";
 import "../../styles/AdminSidebar.css";
 
 function AdminSidebar({ collapsed: collapsedProp, setCollapsed: setCollapsedProp }) {
@@ -34,10 +34,10 @@ function AdminSidebar({ collapsed: collapsedProp, setCollapsed: setCollapsedProp
             navigate("/admin/drugs");
         } else if (name === "Manage Members") {
             navigate("/admin/members");
-        } else if (name === "Add Member") {
-            navigate("/admin/add-member");
         } else if (name === "Add Drug") {
             navigate("/admin/add-drug");
+        } else if (name === "Manage Orders") {
+            navigate("/admin/manage-orders"); // Add this line
         }
     };
 
@@ -61,15 +61,7 @@ function AdminSidebar({ collapsed: collapsedProp, setCollapsed: setCollapsedProp
                     {!collapsed && <span>Dashboard</span>}
                 </a>
 
-                <a
-                    className={active === "Add Member" ? "active" : ""}
-                    onClick={() => handleClick("Add Member")}
-                    aria-label="Add Member"
-                    title={collapsed ? "Add Member" : undefined}
-                >
-                    <FaUsers className="sidebar-icon" />
-                    {!collapsed && <span>Add Member</span>}
-                </a>
+
                 <a
                     className={active === "Manage Members" ? "active" : ""}
                     onClick={() => handleClick("Manage Members")}
@@ -96,6 +88,15 @@ function AdminSidebar({ collapsed: collapsedProp, setCollapsed: setCollapsedProp
                 >
                     <FaPills className="sidebar-icon" />
                     {!collapsed && <span>Manage Drug</span>}
+                </a>
+                <a
+                    className={active === "Manage Orders" ? "active" : ""}
+                    onClick={() => handleClick("Manage Orders")}
+                    aria-label="Manage Orders"
+                    title={collapsed ? "Manage Orders" : undefined}
+                >
+                    <FaClipboardList className="sidebar-icon" />
+                    {!collapsed && <span>Manage Orders</span>}
                 </a>
                 <a
                     onClick={() => handleClick("Logout")}

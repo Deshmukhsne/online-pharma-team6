@@ -41,7 +41,7 @@ const MemberDashboard = () => {
     axios.post("http://localhost:8080/api/cart/add", cartItem)
       .then(() => {
         alert("Added to cart successfully!");
-      
+
         axios.get("http://localhost:8080/api/medicines/cart-count?memberId=" + memberId)
           .then(res => setCartCount(res.data));
       })
@@ -77,41 +77,41 @@ const MemberDashboard = () => {
 
         <section className="medicine-table-section">
           <h2>All Medicines</h2>
-          <table className="medicine-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Company</th>
-                <th>Available Quantity</th>
-                <th>Type</th>
-                <th>Price</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {medicines.map((medicine) => (
-                <tr key={medicine.id}>
-                  <td>{medicine.id}</td>
-                  <td>{medicine.name}</td>
-                   <td>{medicine.company}</td>
-                   
-                  <td>{medicine.availableQuantity}</td>
-                   <td>{medicine.type}</td>
-                    <td>{medicine.price}</td>
-
-                  <td>
-                    <button
-                      className="add-to-cart-btn"
-                      onClick={() => handleAddToCart(medicine.id)}
-                    >
-                      Add to Cart
-                    </button>
-                  </td>
+          <div className="table-scroll-container">
+            <table className="medicine-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Company</th>
+                  <th>Available Quantity</th>
+                  <th>Type</th>
+                  <th>Price</th>
+                  <th>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {medicines.map((medicine) => (
+                  <tr key={medicine.id}>
+                    <td>{medicine.id}</td>
+                    <td>{medicine.name}</td>
+                    <td>{medicine.company}</td>
+                    <td>{medicine.availableQuantity}</td>
+                    <td>{medicine.type}</td>
+                    <td>{medicine.price}</td>
+                    <td>
+                      <button
+                        className="add-to-cart-btn"
+                        onClick={() => handleAddToCart(medicine.id)}
+                      >
+                        Add to Cart
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
       </main>
     </div>

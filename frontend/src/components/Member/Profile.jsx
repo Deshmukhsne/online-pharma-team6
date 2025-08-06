@@ -61,10 +61,10 @@ const Profile = () => {
       </div>
 
       <div className="profile-main">
-        <header className="profile-header">
-          <FaUser className="profile-icon" />
-          <h2>My Profile</h2>
-        </header>
+        <div className="profile-header">
+         
+          <h2 className="heading1">My Profile</h2>
+        </div>
 
         <div className="profile-card">
           <form onSubmit={handleSubmit}>

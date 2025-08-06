@@ -70,8 +70,8 @@ const Cart = () => {
 
       <div className="cart-main">
         <header className="cart-header">
-          <FaShoppingCart className="cart-icon" />
-          <h2>My Cart</h2>
+         
+          <h2 className="heading1">My Cart</h2>
         </header>
 
         {cart.length === 0 ? (

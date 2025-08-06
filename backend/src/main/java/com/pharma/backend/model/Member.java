@@ -119,4 +119,20 @@ public class Member {
     public void setPassword(String password) {
         this.password = password;
     }
+
+     @Transient
+    private String status;
+
+	public String getStatus() {
+        if (approved && disabled) return "Approved";
+        if (!approved && !disabled) return "Declined";
+        return "Pending";
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+	
+
+  
 }
