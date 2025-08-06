@@ -10,17 +10,12 @@ const quickLinks = [
     { label: "View Orders", icon: <FaClipboardList />, to: "#" },
 ];
 
-const recentActivity = [
-    { id: 1, action: "Order #1234 placed", time: "2 mins ago" },
-    { id: 2, action: "User JohnDoe registered", time: "10 mins ago" },
-    { id: 3, action: "Medicine Paracetamol updated", time: "1 hour ago" },
-];
-
 const AdminDashboard = () => {
     const [collapsed, setCollapsed] = useState(true);
     const [medicineCount, setMedicineCount] = useState(0);
     const [memberCount, setMemberCount] = useState(0);
     const [orderCount, setOrderCount] = useState(0);
+    const [recentOrders, setRecentOrders] = useState([]);
 
     useEffect(() => {
         const fetchMedicineCount = async () => {
@@ -43,19 +38,24 @@ const AdminDashboard = () => {
             }
         };
 
-        const fetchOrderCount = async () => {
+        const fetchOrderCountAndActivity = async () => {
             try {
                 const response = await axios.get("http://localhost:8080/api/orders/all");
                 setOrderCount(response.data.length);
+                const sortedOrders = response.data
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by latest
+                    .slice(0, 5); // Limit to 5 recent orders
+                setRecentOrders(sortedOrders);
             } catch (error) {
-                console.error("Error fetching order count:", error);
+                console.error("Error fetching order data:", error);
                 setOrderCount(0);
+                setRecentOrders([]);
             }
         };
 
         fetchMedicineCount();
         fetchMemberCount();
-        fetchOrderCount();
+        fetchOrderCountAndActivity();
     }, []);
 
     const stats = [
@@ -100,14 +100,19 @@ const AdminDashboard = () => {
                 </section>
 
                 <section className="admin-activity">
-                    <h2>Recent Activity</h2>
+                    <h2>Recent Orders</h2>
                     <ul>
-                        {recentActivity.map((item) => (
-                            <li key={item.id}>
-                                <span className="activity-action">{item.action}</span>
-                                <span className="activity-time">{item.time}</span>
+                        {recentOrders.map((order) => (
+                            <li key={order.id}>
+                                <span className="activity-action">
+                                    Order #{order.id} placed by Member #{order.memberId}
+                                </span>
+                               
                             </li>
                         ))}
+                        {recentOrders.length === 0 && (
+                            <li><span className="activity-action">No recent orders</span></li>
+                        )}
                     </ul>
                 </section>
             </main>
