@@ -81,9 +81,10 @@ An online platform for users to order medicines/drugs securely. The system suppo
 <img width="1893" height="913" alt="image" src="https://github.com/user-attachments/assets/7b0d769c-2734-416a-99e3-e9d90d9f7aff" />
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/89fe1fc5-e4de-49f8-9bbe-82fd8ebfaa13" />
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/9036b04e-648a-4214-9dbe-ee419a5d3c0d" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/092f3623-90c7-429c-bf5f-da4999bcbc72" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/964e77f4-0222-4c5b-aef2-ddf079dffcc4" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/c030e260-a6d6-4dd0-aa2e-9c2af23843ee" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/280939be-bc9a-46ea-8e2b-38b2477f877a" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/75d89512-0e73-4456-ab52-c31ce346aa65" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/f050a4f1-acc7-4cf6-a763-67aefdbd153b" />
+
 
 
 
