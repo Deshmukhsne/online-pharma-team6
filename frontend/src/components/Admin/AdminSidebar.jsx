@@ -37,7 +37,7 @@ function AdminSidebar({ collapsed: collapsedProp, setCollapsed: setCollapsedProp
         } else if (name === "Add Drug") {
             navigate("/admin/add-drug");
         } else if (name === "Manage Orders") {
-            navigate("/admin/manage-orders"); // Add this line
+            navigate("/admin/manage-orders"); 
         }
     };
 

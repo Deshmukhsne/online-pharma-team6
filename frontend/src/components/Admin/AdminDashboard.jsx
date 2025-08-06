@@ -43,8 +43,8 @@ const AdminDashboard = () => {
                 const response = await axios.get("http://localhost:8080/api/orders/all");
                 setOrderCount(response.data.length);
                 const sortedOrders = response.data
-                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by latest
-                    .slice(0, 5); // Limit to 5 recent orders
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) 
+                    .slice(0, 5); 
                 setRecentOrders(sortedOrders);
             } catch (error) {
                 console.error("Error fetching order data:", error);

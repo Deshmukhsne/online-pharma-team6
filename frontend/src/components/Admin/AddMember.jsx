@@ -1,4 +1,4 @@
-// src/components/members/AddMember.js
+
 import React, { useState } from 'react';
 import AdminSidebar from '../Admin/AdminSidebar';
 import { FaUserPlus } from 'react-icons/fa';
