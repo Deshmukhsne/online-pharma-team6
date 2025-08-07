@@ -10,7 +10,7 @@ const ForgotPassword = () => {
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
-  // Mock function for development when backend isn't available
+  
   const mockApiCall = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -106,7 +106,7 @@ const ForgotPassword = () => {
               <span className="spinner"></span> Processing...
             </>
           ) : (
-            "Send Reset Link"
+            "Reset"
           )}
         </button>
       </form>

@@ -162,19 +162,7 @@ const Registration = () => {
             value={formData.password}
             onChange={handleChange}
           />
-          {errors.password ? (
-            <div className="invalid-feedback">{errors.password}</div>
-          ) : (
-            <div className="password-requirements mt-2">
-              Password must contain:
-              <ul>
-                <li>At least 8 characters</li>
-                <li>Uppercase and lowercase letters</li>
-                <li>At least one number</li>
-                <li>At least one special character (@#$%^&+=!)</li>
-              </ul>
-            </div>
-          )}
+         
         </div>
 
         <div className="mb-3">

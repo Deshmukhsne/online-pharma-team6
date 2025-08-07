@@ -30,22 +30,23 @@ function Login() {
             if (response.ok) {
                 const user = await response.json();
 
-                if (user.disabled === true) {
+                if (!user.disabled) {
                     localStorage.setItem("memberId", user.id);
+                    localStorage.setItem("role", user.role);
 
-                  
+                    // Navigate based on role
                     if (user.role === "ADMIN" || user.role === "A") {
                         navigate("/admin");
                     } else {
                         navigate("/member");
                     }
                 } else {
-                    alert("Wait for admin approval before logging in.");
+                    alert("Your account is pending approval by the admin.");
                 }
             } else if (response.status === 401) {
                 alert("Invalid password");
             } else if (response.status === 403) {
-                alert("Wait for approval");
+                alert("Your account is disabled or pending approval.");
             } else if (response.status === 404) {
                 alert("User not found");
             } else {
@@ -80,7 +81,9 @@ function Login() {
                     />
                 </div>
                 <button type="submit" className="login-btn">Login</button>
-                <p className="fpass"><a href="/ForgotPassword">Forgot password?</a></p>
+                <p className="fpass">
+                    <a href="/ForgotPassword">Forgot password?</a>
+                </p>
                 <p className="register-link">
                     Not registered? <a href="/register">Register now</a>
                 </p>

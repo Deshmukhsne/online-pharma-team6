@@ -82,8 +82,8 @@ function ManageMembers() {
     };
 
     const getStatus = (member) => {
-        if (member.disabled === true) return 'Approved';
-        if (member.disabled === false) return 'Declined';
+        if (member.disabled === true) return 'Declined';
+        if (member.disabled === false) return 'Approved';
         return 'Pending';
     };
 
@@ -155,8 +155,8 @@ function ManageMembers() {
                                         </td>
                                         <td>
                                             <div className="action-buttons">
-                                                <button className="action-btn accept-btn" onClick={() => handleStatusChange(member.id, 'Declined')}>Accept</button>
-                                                <button className="action-btn decline-btn" onClick={() => handleStatusChange(member.id, 'Approved')}>Decline</button>
+                                                <button className="action-btn accept-btn" onClick={() => handleStatusChange(member.id, 'Approved')}>Accept</button>
+                                                <button className="action-btn decline-btn" onClick={() => handleStatusChange(member.id, 'Declined' )}>Decline</button>
                                                 <button className="action-btn delete-btn" onClick={() => handleDelete(member.id)}>Delete</button>
                                             </div>
                                         </td>

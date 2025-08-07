@@ -47,8 +47,7 @@ public class MemberController {
             }
 
             member.setPassword(passwordEncoder.encode(member.getPassword()));
-            member.setApproved(false);
-            member.setDisabled(true); 
+            member.setDisabled(true);  // Wait for approval
             member.setRole("MEMBER");
 
             Member savedMember = service.addMember(member);
@@ -67,8 +66,7 @@ public class MemberController {
         }
 
         member.setPassword(passwordEncoder.encode(member.getPassword()));
-        member.setApproved(false);
-        member.setDisabled(true); 
+        member.setDisabled(true);  
         member.setRole("MEMBER");
 
         return ResponseEntity.ok(service.addMember(member));
@@ -85,16 +83,14 @@ public class MemberController {
         Optional<Member> optionalMember = service.findById(id);
         if (optionalMember.isPresent()) {
             Member member = optionalMember.get();
+
+            
             if (status.equalsIgnoreCase("Approved")) {
-                member.setApproved(true);
-                member.setDisabled(false); 
-            } else if (status.equalsIgnoreCase("Declined")) {
-                member.setApproved(false);
-                member.setDisabled(true); 
+                member.setDisabled(false);  
             } else {
-                member.setApproved(false);
-                member.setDisabled(true); 
+                member.setDisabled(true);   
             }
+
             return ResponseEntity.ok(service.addMember(member));
         }
         return ResponseEntity.notFound().build();
@@ -148,4 +144,23 @@ public class MemberController {
         Member updated = service.addMember(member);
         return ResponseEntity.ok(updated);
     }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+        String newPassword = payload.get("newPassword");
+
+        Optional<Member> memberOptional = service.findByEmail(email);
+
+        if (memberOptional.isEmpty()) {
+             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "User not found"));
+        }
+
+        Member member = memberOptional.get();
+        member.setPassword(passwordEncoder.encode(newPassword));
+
+        service.addMember(member); 
+
+        return ResponseEntity.ok(Map.of("success", true));
+}
 }

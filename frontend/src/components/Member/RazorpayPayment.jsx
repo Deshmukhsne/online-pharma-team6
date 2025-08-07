@@ -19,7 +19,7 @@ export async function initiatePayment({ amount, onSuccess }) {
   }
 
   const options = {
-    key: "rzp_test_4Ea0vvGa7O4ivP", 
+    key: "rzp_test_twlGXYu8h8WOOA", 
     amount: amount * 100, 
     currency: "INR",
     name: "Online Pharmacy",
@@ -28,9 +28,9 @@ export async function initiatePayment({ amount, onSuccess }) {
       onSuccess(response);
     },
     prefill: {
-      name: "Pharma",
-      email: "pharma@123",
-      contact: "1234567890",
+      name: "Online Pharma",
+      email: "nileshvchavan0@gmail.com",
+      contact: "9922327720",
     },
     theme: {
       color: "#3399cc",

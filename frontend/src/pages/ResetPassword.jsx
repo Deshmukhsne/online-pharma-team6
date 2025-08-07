@@ -13,21 +13,12 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
- 
+  // Pre-fill email if passed via location state
   useEffect(() => {
     if (location.state?.email) {
       setEmail(location.state.email);
     }
   }, [location.state]);
-
-  
-  const mockResetPassword = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ status: 200, data: { success: true } });
-      }, 1500);
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +26,7 @@ const ResetPassword = () => {
     setError("");
     setSuccess(false);
 
-    
+    // Validation
     if (!email || !newPassword || !confirmPassword) {
       setError("Please fill in all fields");
       setIsLoading(false);
@@ -54,23 +45,16 @@ const ResetPassword = () => {
       return;
     }
 
+    // Real API call
     try {
-      let response;
-      
-      
-      try {
-        response = await axios.post(
-          "http://localhost:8080/api/members/reset-password",
-          { email, newPassword },
-          {
-            headers: { "Content-Type": "application/json" },
-            timeout: 5000
-          }
-        );
-      } catch (apiError) {
-        console.warn("Real API failed, falling back to mock implementation");
-        response = await mockResetPassword();
-      }
+      const response = await axios.post(
+        "http://localhost:8080/api/members/reset-password",
+        { email, newPassword },
+        {
+          headers: { "Content-Type": "application/json" },
+          timeout: 5000,
+        }
+      );
 
       if (response.data.success) {
         setSuccess(true);
@@ -81,9 +65,9 @@ const ResetPassword = () => {
     } catch (error) {
       console.error("Reset error:", error);
       setError(
-        error.response?.data?.message || 
-        error.message || 
-        "Failed to reset password. Please try again later."
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to reset password. Please try again later."
       );
     } finally {
       setIsLoading(false);
@@ -95,12 +79,7 @@ const ResetPassword = () => {
       <form className="reset-box" onSubmit={handleSubmit}>
         <h2>Reset Password</h2>
 
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
-
+        {error && <div className="error-message">{error}</div>}
         {success && (
           <div className="success-message">
             Password reset successful! Redirecting to login...
@@ -136,8 +115,8 @@ const ResetPassword = () => {
           minLength="8"
         />
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="reset-btn"
           disabled={isLoading || success}
         >
