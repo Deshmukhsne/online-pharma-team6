@@ -62,7 +62,7 @@ const MemberDashboard = () => {
       <MemberSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
       <main className="member-main-content" style={{ marginLeft: collapsed ? 60 : 240, width: `calc(100vw - ${collapsed ? 60 : 240}px)` }}>
         <header className="member-header">
-          <div className="member-title">Welcome to Member Dashboard</div>
+          <div className="member-title1">Welcome to Member Dashboard</div>
         </header>
 
         <section className="member-stats">

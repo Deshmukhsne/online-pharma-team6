@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AdminSidebar from './AdminSidebar';
-import '../../styles/AdminDashboard.css';
+
 import '../../styles/ManageOrder.css';
 import Swal from 'sweetalert2';
 
@@ -16,9 +16,7 @@ function ManageOrder() {
     const fetchOrders = async () => {
         try {
             const res = await axios.get('http://localhost:8080/api/orders/all', {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                headers: { 'Content-Type': 'application/json' }
             });
             setOrders(res.data);
         } catch (err) {
@@ -30,11 +28,7 @@ function ManageOrder() {
         try {
             await axios.put(`http://localhost:8080/api/orders/${id}/status`,
                 { status: 'Accepted' },
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
+                { headers: { 'Content-Type': 'application/json' } }
             );
             Swal.fire({
                 icon: 'success',
@@ -57,11 +51,7 @@ function ManageOrder() {
         try {
             await axios.put(`http://localhost:8080/api/orders/${id}/status`,
                 { status: 'Declined' },
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
+                { headers: { 'Content-Type': 'application/json' } }
             );
             Swal.fire({
                 icon: 'success',
@@ -89,64 +79,65 @@ function ManageOrder() {
             >
                 <header className="admin-header">
                     <div className="admin-title">Manage Orders</div>
-                    <div className="admin-user">
-                        <span className="admin-avatar">A</span>
-                        <span style={{ fontWeight: 500, color: '#333' }}>Admin</span>
-                    </div>
                 </header>
 
-                <section>
-                    <table className="order-table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Member ID</th>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orders.length === 0 ? (
+                <section className="table-wrapper">
+                    
+                    <div className="table-responsive">
+                        
+                        <table className="order-table">
+                            
+                            <thead>
                                 <tr>
-                                    <td colSpan="7" className="no-data">No orders found.</td>
+                                    <th>Order ID</th>
+                                    <th>Member ID</th>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
-                            ) : (
-                                orders.map((order) => (
-                                    <tr key={order.id}>
-                                        <td>{order.id}</td>
-                                        <td>{order.memberId}</td>
-                                        <td>{order.name}</td>
-                                        <td>₹{order.price.toFixed(2)}</td>
-                                        <td>{order.quantity}</td>
-                                        <td>
-                                            <span className={`status-${order.status.toLowerCase()}`}>
-                                                {order.status}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <button
-                                                onClick={() => handleAccept(order.id)}
-                                                className="accept-btn"
-                                                disabled={order.status === 'Accepted'}
-                                            >
-                                                Accept
-                                            </button>
-                                            <button
-                                                onClick={() => handleDecline(order.id)}
-                                                className="decline-btn"
-                                                disabled={order.status === 'Declined'}
-                                            >
-                                                Decline
-                                            </button>
-                                        </td>
+                            </thead>
+                            <tbody>
+                                {orders.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="7" className="no-data">No orders found.</td>
                                     </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                                ) : (
+                                    orders.map((order) => (
+                                        <tr key={order.id}>
+                                            <td>{order.id}</td>
+                                            <td>{order.memberId}</td>
+                                            <td>{order.name}</td>
+                                            <td>₹{order.price.toFixed(2)}</td>
+                                            <td>{order.quantity}</td>
+                                            <td>
+                                                <span className={`status-${order.status.toLowerCase()}`}>
+                                                    {order.status}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <button
+                                                    onClick={() => handleAccept(order.id)}
+                                                    className="accept-btn"
+                                                    disabled={order.status === 'Accepted'}
+                                                >
+                                                    Accept
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDecline(order.id)}
+                                                    className="decline-btn"
+                                                    disabled={order.status === 'Declined'}
+                                                >
+                                                    Decline
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </section>
             </main>
         </div>

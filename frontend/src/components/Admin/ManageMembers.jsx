@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AdminSidebar from '../Admin/AdminSidebar';
-import '../../styles/AdminDashboard.css';
+
 import '../../styles/ManageMembers.css';
 
 function ManageMembers() {
@@ -94,12 +94,9 @@ function ManageMembers() {
                 className="admin-main-content"
                 style={{ marginLeft: collapsed ? 60 : 250, width: `calc(100vw - ${collapsed ? 60 : 250}px)` }}
             >
-                <header className="admin-header">
+                <header className="admin-header2">
                     <div className="admin-title">Manage Members</div>
-                    <div className="admin-user">
-                        <span className="admin-avatar">A</span>
-                        <span>Admin</span>
-                    </div>
+                   
                 </header>
 
                 <section className="manage-members-section">

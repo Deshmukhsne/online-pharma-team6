@@ -71,7 +71,7 @@ const Cart = () => {
       <div className="cart-main">
         <header className="cart-header">
          
-          <h2 className="heading1">My Cart</h2>
+          <h1 className="heading1">My Cart</h1>
         </header>
 
         {cart.length === 0 ? (
@@ -82,7 +82,7 @@ const Cart = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>#</th>
+                    <th>Id</th>
                     <th>Medicine</th>
                     <th>Price</th>
                     <th>Quantity</th>

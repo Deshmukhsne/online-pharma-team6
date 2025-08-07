@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AdminSidebar from './AdminSidebar';
-import '../../styles/AdminDashboard.css';
+
 import '../../styles/ManageDrug.css';
 import Swal from 'sweetalert2';
 
@@ -88,17 +88,11 @@ function ManageDrug() {
                 className="admin-main-content"
                 style={{ marginLeft: collapsed ? 60 : 250, width: `calc(100vw - ${collapsed ? 60 : 250}px)` }}
             >
-                <header className="admin-header">
-                    <div className="admin-title">Manage Medicines</div>
-                    <div className="admin-user">
-                        <span className="admin-avatar">A</span>
-                        <span style={{ fontWeight: 500, color: '#333' }}>Admin</span>
-                    </div>
-                </header>
+                
 
                 <section>
                     <table className="drug-table">
-                        <thead>
+                        <thead >
                             <tr>
                                 <th>ID</th>
                                 <th>Medicine Name</th>
@@ -111,11 +105,12 @@ function ManageDrug() {
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody><br></br><br></br><br></br>
                             {medicines.length === 0 ? (
                                 <tr>
                                     <td colSpan="9" className="no-data">No medicines found.</td>
                                 </tr>
+                                
                             ) : (
                                 medicines.map((medicine) => (
                                     <tr key={medicine.id}>

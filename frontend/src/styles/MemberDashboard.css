@@ -55,11 +55,11 @@ body {
   gap: 0.75rem;
 }
 
-.member-title {
+.member-title1 {
   font-size: clamp(1.5rem, 2.5vw, 2.25rem);
   font-weight: 700;
   color: var(--member-primary);
-  margin: 0;
+  margin-top: 35px;
 }
 
 .member-stats {

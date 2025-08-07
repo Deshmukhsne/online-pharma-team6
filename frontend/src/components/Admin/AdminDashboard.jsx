@@ -71,12 +71,9 @@ const AdminDashboard = () => {
                 className="admin-main-content"
                 style={{ marginLeft: collapsed ? 60 : 250, width: `calc(100vw - ${collapsed ? 60 : 250}px)` }}
             >
-                <header className="admin-header">
+                <header className="admin-header3">
                     <div className="admin-title">Welcome to Admin Dashboard</div>
-                    <div className="admin-user">
-                        <span className="admin-avatar">A</span>
-                        <span style={{ fontWeight: 500, color: "#333" }}>Admin</span>
-                    </div>
+                    
                 </header>
 
                 <section className="admin-stats">
