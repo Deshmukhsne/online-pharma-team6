@@ -1,4 +1,4 @@
-/* Reset */
+
 * {
     box-sizing: border-box;
 }
@@ -15,7 +15,7 @@ body {
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* Background */
+
 .login-container {
     height: 100vh;
     width: 100vw;
@@ -28,7 +28,7 @@ body {
     
 }
 
-/* Box */
+
 .login-box {
     background: white;
     padding: 30px;
@@ -46,7 +46,7 @@ body {
     text-align: center;
 }
 
-/* Input Fields */
+
 .login-grid {
     display: grid;
     gap: 15px;
@@ -59,7 +59,6 @@ body {
     border-radius: 5px;
 }
 
-/* Button */
 .login-btn {
     width: 100%;
     padding: 12px;

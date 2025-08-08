@@ -71,7 +71,7 @@ const Cart = () => {
       <div className="cart-main">
         <header className="cart-header">
          
-          <h1 className="heading1">My Cart</h1>
+          <h1 className="heading">My Cart</h1>
         </header>
 
         {cart.length === 0 ? (

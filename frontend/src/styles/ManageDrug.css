@@ -24,7 +24,7 @@ body {
     color: #2c3e50;
 }
 
-/* Form Section */
+
 .drug-form {
     display: flex;
     flex-wrap: wrap;
@@ -63,7 +63,7 @@ body {
     background: linear-gradient(90deg, #138d75 60%, #2471a3 100%);
 }
 
-/* Table Section */
+
 .table-wrapper {
     width: 100%;
     overflow-x: auto;
@@ -107,7 +107,7 @@ body {
     padding: 5px 10px;
 }
 
-/* Action Buttons */
+
 .edit-btn {
     background-color: #0277bd;
     color: white;
@@ -132,7 +132,7 @@ body {
     background-color: #b71c1c;
 }
 
-/* Modal Styles */
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -189,7 +189,7 @@ body {
     cursor: pointer;
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 768px) {
     .drug-form {
         flex-direction: column;

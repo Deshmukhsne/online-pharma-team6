@@ -13,7 +13,7 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Pre-fill email if passed via location state
+  
   useEffect(() => {
     if (location.state?.email) {
       setEmail(location.state.email);
@@ -26,7 +26,7 @@ const ResetPassword = () => {
     setError("");
     setSuccess(false);
 
-    // Validation
+    
     if (!email || !newPassword || !confirmPassword) {
       setError("Please fill in all fields");
       setIsLoading(false);
@@ -45,7 +45,7 @@ const ResetPassword = () => {
       return;
     }
 
-    // Real API call
+   
     try {
       const response = await axios.post(
         "http://localhost:8080/api/members/reset-password",

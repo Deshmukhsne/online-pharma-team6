@@ -1,13 +1,13 @@
-/* Reset & base styles */
+
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: linear-gradient(to right, #e6f2f2, #f0fff0); /* Light medical-themed gradient */
+  background: linear-gradient(to right, #e6f2f2, #f0fff0); 
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Center content */
+
 .reg-container {
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@ body, html {
   min-height: 100vh;
 }
 
-/* Form wrapper */
+
 .reg-form {
   background: #ffffff;
   padding: 30px 25px;
@@ -27,16 +27,16 @@ body, html {
   border: 1px solid #cce5e5;
 }
 
-/* Heading */
+
 .reg-container h2 {
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 25px;
-  color: #00796b; /* Teal heading */
+  color: #00796b; 
   text-align: center;
 }
 
-/* Labels */
+
 .reg-form label {
   display: block;
   font-size: 14px;
@@ -45,7 +45,7 @@ body, html {
   margin-bottom: 5px;
 }
 
-/* Inputs & textarea */
+
 .reg-form input,
 .reg-form textarea {
   width: 100%;
@@ -63,7 +63,7 @@ body, html {
   outline: none;
 }
 
-/* Invalid feedback */
+
 .invalid-feedback {
   font-size: 13px;
   color: #d32f2f;
@@ -90,7 +90,7 @@ body, html {
   background-color: #1e857d;
 }
 
-/* Alert styling */
+
 .alert {
   margin-top: 20px;
   font-size: 14px;

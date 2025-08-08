@@ -47,7 +47,7 @@ public class MemberController {
             }
 
             member.setPassword(passwordEncoder.encode(member.getPassword()));
-            member.setDisabled(true);  // Wait for approval
+            member.setDisabled(true);  
             member.setRole("MEMBER");
 
             Member savedMember = service.addMember(member);

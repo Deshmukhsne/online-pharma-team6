@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import MemberSidebar from "./Membersidebar";
-import { FaClipboardList } from "react-icons/fa";
 import "../../styles/Orders.css";
 import axios from "axios";
+
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);

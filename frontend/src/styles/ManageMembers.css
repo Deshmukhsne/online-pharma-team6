@@ -1,4 +1,4 @@
-/* ManageMembers.css */
+
 
 :root {
     --color-primary: #1abc9c;
@@ -56,8 +56,8 @@
     transition: background var(--transition-fast);
     height: 36px;
     width: auto;
-    align-self: flex-end; /* Pushes to right if in flex container */
-    margin-left: auto;     /* Ensures right alignment */
+    align-self: flex-end; 
+    margin-left: auto;    
 }
 
 .add-btn:hover {
@@ -71,7 +71,7 @@
     border-radius: var(--radius);
     box-shadow: var(--shadow-light);
     margin-top: var(--space-md);
-    min-height: 200px; /* reserve space to prevent shift */
+    min-height: 200px; 
 }
 
 .member-table {
@@ -118,13 +118,13 @@
     text-align: center;
     color: var(--color-muted);
     padding: var(--space-lg);
-    height: 200px; /* match table container */
+    height: 200px; 
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Status pills */
+
 .status-pill {
     display: inline-flex;
     align-items: center;

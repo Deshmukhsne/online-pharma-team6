@@ -74,7 +74,7 @@ public class MedicineController {
             existing.setBanned(updatedMedicine.isBanned());
             existing.setImageUrl(updatedMedicine.getImageUrl());
 
-            Medicine saved = medicineService.saveMedicine(existing, null); // Skip image logic
+            Medicine saved = medicineService.saveMedicine(existing, null); 
             return ResponseEntity.ok(saved);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error updating medicine: " + e.getMessage());

@@ -67,4 +67,8 @@ public class CartController {
         cartRepository.deleteAll(items);
         return ResponseEntity.ok("Cart cleared");
     }
+
+    
+
+    
 }

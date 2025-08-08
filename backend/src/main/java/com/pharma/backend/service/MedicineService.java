@@ -15,7 +15,7 @@ public interface MedicineService {
 
     List<Medicine> getAllMedicines();
 
-    Medicine saveMedicine(Medicine medicine, Object imageFile); // imageFile can be null
+    Medicine saveMedicine(Medicine medicine, Object imageFile); 
 
     long getMedicineCount();
 

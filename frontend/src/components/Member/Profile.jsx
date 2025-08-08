@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MemberSidebar from "./Membersidebar";
 import "../../styles/Profile.css";
-import { FaUser } from "react-icons/fa";
+
 
 const Profile = () => {
   const memberId = localStorage.getItem("memberId");

@@ -35,13 +35,13 @@ public class MedicineServiceImpl implements MedicineService {
 
     @Override
     public Medicine saveMedicine(Medicine medicine, Object imageFile) {
-        // Skipping image saving for now, handle separately if needed
+      
         return medicineRepository.save(medicine);
     }
 
     @Override
     public long getMedicineCount() {
-        return medicineRepository.count(); // Standard JPA method
+        return medicineRepository.count(); 
     }
 
     @Override
