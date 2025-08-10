@@ -11,6 +11,11 @@ const MemberDashboard = () => {
   const [cartCount, setCartCount] = useState(0);
   const [medicines, setMedicines] = useState([]);
 
+  
+  const [showModal, setShowModal] = useState(false);
+  const [selectedMedicine, setSelectedMedicine] = useState(null);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+
   const memberId = localStorage.getItem("memberId");
 
   useEffect(() => {
@@ -31,18 +36,28 @@ const MemberDashboard = () => {
       .catch(err => console.error("Error fetching medicine list:", err));
   }, [memberId]);
 
-  const handleAddToCart = (medicineId) => {
+
+  const openCartModal = (medicine) => {
+    setSelectedMedicine(medicine);
+    setSelectedQuantity(1); 
+    setShowModal(true);
+  };
+
+  
+  const confirmAddToCart = () => {
+    if (!selectedMedicine) return;
+
     const cartItem = {
       memberId: memberId,
-      medicineId: medicineId,
-      quantity: 1
+      medicineId: selectedMedicine.id,
+      quantity: selectedQuantity
     };
 
     axios.post("http://localhost:8080/api/cart/add", cartItem)
       .then(() => {
         alert("Added to cart successfully!");
-
-        axios.get("http://localhost:8080/api/medicines/cart-count?memberId=" + memberId)
+        setShowModal(false);
+        axios.get(`http://localhost:8080/api/medicines/cart-count?memberId=${memberId}`)
           .then(res => setCartCount(res.data));
       })
       .catch(err => {
@@ -65,6 +80,7 @@ const MemberDashboard = () => {
           <div className="member-title1">Welcome to Member Dashboard</div>
         </header>
 
+       
         <section className="member-stats">
           {stats.map((stat) => (
             <div className="member-stat-card" key={stat.label}>
@@ -75,6 +91,7 @@ const MemberDashboard = () => {
           ))}
         </section>
 
+       
         <section className="medicine-table-section">
           <h2>All Medicines</h2>
           <div className="table-scroll-container">
@@ -102,7 +119,7 @@ const MemberDashboard = () => {
                     <td>
                       <button
                         className="add-to-cart-btn"
-                        onClick={() => handleAddToCart(medicine.id)}
+                        onClick={() => openCartModal(medicine)}
                       >
                         Add to Cart
                       </button>
@@ -114,6 +131,38 @@ const MemberDashboard = () => {
           </div>
         </section>
       </main>
+
+
+      {showModal && selectedMedicine && (
+
+        <div className="modal-overlay">
+           <div className="modal-content">
+              <h3>{selectedMedicine.name}</h3>
+             <p>Price: ₹{selectedMedicine.price}</p>
+
+              <div style={{ margin: "15px 0" }}>
+              <label>Quantity: </label>
+              <input
+
+                type="number"
+               min="1"
+               value={selectedQuantity}
+                onChange={(e) => setSelectedQuantity(Number(e.target.value))}
+              />
+            </div>
+
+            <div className="modal-buttons">
+              <button className="confirm-btn" onClick={confirmAddToCart}>
+               Confirm
+             </button>
+              <button className="cancel-btn" onClick={() => setShowModal(false)}>
+               Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
