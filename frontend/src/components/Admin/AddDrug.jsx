@@ -15,29 +15,48 @@ function AddDrug() {
     rating: '',
     banned: false,
     description: '',
-    imageUrl: ''
+    imageFile: null
   });
+  const [preview, setPreview] = useState(null);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
+    const { name, value, type, checked, files } = e.target;
+    if (type === 'file') {
+      const file = files[0];
+      setFormData((prev) => ({ ...prev, imageFile: file }));
+      if (file) {
+        setPreview(URL.createObjectURL(file));
+      } else {
+        setPreview(null);
+      }
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formatted = {
-      ...formData,
-      price: parseFloat(formData.price),
-      rating: parseInt(formData.rating),
-      availableQuantity: parseInt(formData.availableQuantity),
-    };
+    const formatted = new FormData();
+    formatted.append('name', formData.name);
+    formatted.append('company', formData.company);
+    formatted.append('type', formData.type);
+    formatted.append('price', parseFloat(formData.price));
+    formatted.append('availableQuantity', parseInt(formData.availableQuantity));
+    formatted.append('rating', parseInt(formData.rating));
+    formatted.append('banned', formData.banned);
+    formatted.append('description', formData.description);
+    if (formData.imageFile) {
+      formatted.append('imageFile', formData.imageFile);
+    }
 
     try {
-      await axios.post('http://localhost:8080/api/medicines/add', formatted);
+      await axios.post('http://localhost:8080/api/medicines/add', formatted); {
+       
+      }
       alert('Medicine added successfully!');
       setFormData({
         name: '',
@@ -48,8 +67,9 @@ function AddDrug() {
         rating: '',
         banned: false,
         description: '',
-        imageUrl: ''
+        imageFile: null
       });
+      setPreview(null);
     } catch (err) {
       console.error('Error uploading medicine:', err.response?.data || err);
       alert('Error adding medicine. See console.');
@@ -104,8 +124,16 @@ function AddDrug() {
               </div>
 
               <div className="form-group">
-                <label htmlFor="imageUrl">Image URL</label>
-                <input type="text" name="imageUrl" value={formData.imageUrl} onChange={handleChange} />
+                <label htmlFor="imageFile">Select Image</label>
+                <div className="choose-file-btn">
+                  <span className="choose-file-btn-label">Choose File</span>
+                  <input
+                    type="file"
+                    name="imageFile"
+                    accept="image/*"
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
             </div>
 
@@ -114,9 +142,9 @@ function AddDrug() {
               <textarea name="description" rows="4" value={formData.description} onChange={handleChange} required />
             </div>
 
-            {formData.imageUrl && (
+            {preview && (
               <div className="image-preview">
-                <img src={formData.imageUrl} alt="Preview" />
+                <img src={preview} alt="Preview" />
               </div>
             )}
 

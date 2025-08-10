@@ -37,4 +37,5 @@ public interface MedicineService {
 
         return "images/" + fileName;
     }
+    Medicine saveMedicine(Medicine medicine);
 }

@@ -38,9 +38,15 @@ public class Medicine {
     private String description;
 
     @Column(name = "image_url")
-    private String imageUrl;
+    private String imageUrl; 
 
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imageData;
 
+    private String imageType;
+
+    
     public Long getId() {
         return id;
     }
@@ -113,8 +119,28 @@ public class Medicine {
         this.description = description;
     }
 
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
+
+    
     public String getImageUrl() {
-        return imageUrl;
+        if (this.id != null) {
+            return "/api/medicines/" + this.id + "/image";
+        }
+        return null;
     }
 
     public void setImageUrl(String imageUrl) {

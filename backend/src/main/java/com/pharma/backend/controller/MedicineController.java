@@ -5,11 +5,14 @@ import com.pharma.backend.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.io.IOException;
+
 
 @RestController
 @RequestMapping("/api/medicines")
@@ -101,4 +104,43 @@ public class MedicineController {
         }
         return ResponseEntity.status(404).body("Image not found at: " + path.toString());
     }
+
+    @PostMapping(value = "/add", consumes = "multipart/form-data")
+    public ResponseEntity<?> addMedicine(
+        @RequestParam("name") String name,
+        @RequestParam("company") String company,
+        @RequestParam("type") String type,
+        @RequestParam("price") double price,
+        @RequestParam("availableQuantity") int availableQuantity,
+        @RequestParam("rating") int rating,
+        @RequestParam("banned") boolean banned,
+        @RequestParam("description") String description,
+        @RequestParam(value = "imageFile", required = false) MultipartFile imageFile
+        ){
+    try {
+        Medicine medicine = new Medicine();
+        medicine.setName(name);
+        medicine.setCompany(company);
+        medicine.setType(type);
+        medicine.setPrice(price);
+        medicine.setAvailableQuantity(availableQuantity);
+        medicine.setRating(rating);
+        medicine.setBanned(banned);
+        medicine.setDescription(description);
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            medicine.setImageData(imageFile.getBytes());
+            medicine.setImageType(imageFile.getContentType());
+        }
+
+        Medicine savedMedicine = medicineService.saveMedicine(medicine, imageFile);
+        return ResponseEntity.ok(savedMedicine);
+    } catch (IOException e) {
+        return ResponseEntity.badRequest().body("Error reading image file: " + e.getMessage());
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body("Error saving medicine: " + e.getMessage());
+    }
+}
+
+
 }

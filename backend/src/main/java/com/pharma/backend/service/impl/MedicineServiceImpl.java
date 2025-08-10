@@ -65,4 +65,9 @@ public class MedicineServiceImpl implements MedicineService {
         return medicineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Medicine not found with id: " + id));
     }
+
+    @Override
+    public Medicine saveMedicine(Medicine medicine) {
+        return medicineRepository.save(medicine);
+    }
 }

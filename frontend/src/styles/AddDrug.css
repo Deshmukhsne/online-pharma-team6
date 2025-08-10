@@ -151,3 +151,39 @@ textarea {
         transform: translateY(0);
     }
 }
+
+.choose-file-btn {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #1abc9c, #007bff 200% 100%);
+    cursor: pointer;
+}
+
+.choose-file-btn input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+}
+
+.choose-file-btn-label {
+    display: inline-block;
+    padding: 8px 14px;
+    background: linear-gradient(135deg, #1abc9c, #007bff 200% 100%);
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.choose-file-btn:hover .choose-file-btn-label {
+    background-color: #033b77;
+}
