@@ -1,44 +1,86 @@
-import React, { useState } from "react";
-import MemberSidebar from "./MemberSidebar";
+import React, { useState, useEffect } from "react";
+import MemberSidebar from "./Membersidebar";
 import "../../styles/MemberDashboard.css";
-import { FaShoppingCart, FaClipboardList, FaPills, FaArrowRight, FaUser } from "react-icons/fa";
-
-const stats = [
-  { label: "Items in Cart", value: 3, icon: <FaShoppingCart style={{ color: 'var(--member-primary)' }} /> },
-  { label: "Orders Placed", value: 12, icon: <FaClipboardList style={{ color: 'var(--member-secondary)' }} /> },
-  { label: "Medicines Available", value: 120, icon: <FaPills style={{ color: '#e67e22' }} /> },
-];
-
-const quickLinks = [
-  { label: "Go to Profile", icon: <FaUser />, to: "/member/profile" },
-  { label: "Search Drugs", icon: <FaPills />, to: "/member/search" },
-  { label: "View Orders", icon: <FaClipboardList />, to: "/member/orders" },
-];
-
-const recentActivity = [
-  { id: 1, action: "Added Paracetamol to cart", time: "5 mins ago" },
-  { id: 2, action: "Placed order #987", time: "1 hour ago" },
-  { id: 3, action: "Updated profile info", time: "Yesterday" },
-];
+import { FaShoppingCart, FaClipboardList, FaPills } from "react-icons/fa";
+import axios from "axios";
 
 const MemberDashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [medCount, setMedCount] = useState(0);
+  const [orderCount, setOrderCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
+  const [medicines, setMedicines] = useState([]);
+
+  
+  const [showModal, setShowModal] = useState(false);
+  const [selectedMedicine, setSelectedMedicine] = useState(null);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+
+  const memberId = localStorage.getItem("memberId");
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/medicines/available-count")
+      .then(res => setMedCount(res.data))
+      .catch(err => console.error("Error fetching medicine count:", err));
+
+    axios.get("http://localhost:8080/api/orders/count?memberId=" + memberId)
+      .then(res => setOrderCount(res.data))
+      .catch(err => console.error("Error fetching order count:", err));
+
+    axios.get("http://localhost:8080/api/medicines/cart-count?memberId=" + memberId)
+      .then(res => setCartCount(res.data))
+      .catch(err => console.error("Error fetching cart count:", err));
+
+    axios.get("http://localhost:8080/api/medicines/all")
+      .then(res => setMedicines(res.data))
+      .catch(err => console.error("Error fetching medicine list:", err));
+  }, [memberId]);
+
+
+  const openCartModal = (medicine) => {
+    setSelectedMedicine(medicine);
+    setSelectedQuantity(1); 
+    setShowModal(true);
+  };
+
+  
+  const confirmAddToCart = () => {
+    if (!selectedMedicine) return;
+
+    const cartItem = {
+      memberId: memberId,
+      medicineId: selectedMedicine.id,
+      quantity: selectedQuantity
+    };
+
+    axios.post("http://localhost:8080/api/cart/add", cartItem)
+      .then(() => {
+        alert("Added to cart successfully!");
+        setShowModal(false);
+        axios.get(`http://localhost:8080/api/medicines/cart-count?memberId=${memberId}`)
+          .then(res => setCartCount(res.data));
+      })
+      .catch(err => {
+        console.error("Error adding to cart:", err);
+        alert("Failed to add to cart.");
+      });
+  };
+
+  const stats = [
+    { label: "Items in Cart", value: cartCount, icon: <FaShoppingCart style={{ color: 'var(--member-primary)' }} /> },
+    { label: "Orders Placed", value: orderCount, icon: <FaClipboardList style={{ color: 'var(--member-secondary)' }} /> },
+    { label: "Medicines Available", value: medCount, icon: <FaPills style={{ color: '#e67e22' }} /> },
+  ];
 
   return (
     <div className="member-dashboard-root">
       <MemberSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-      <main
-        className="member-main-content"
-        style={{ marginLeft: collapsed ? 60 : 240, width: `calc(100vw - ${collapsed ? 60 : 240}px)` }}
-      >
+      <main className="member-main-content" style={{ marginLeft: collapsed ? 60 : 240, width: `calc(100vw - ${collapsed ? 60 : 240}px)` }}>
         <header className="member-header">
-          <div className="member-title">Welcome to Member Dashboard</div>
-          <div className="member-user">
-            <span className="member-avatar">M</span>
-            <span style={{ fontWeight: 500, color: '#333' }}>Member</span>
-          </div>
+          <div className="member-title1">Welcome to Member Dashboard</div>
         </header>
 
+       
         <section className="member-stats">
           {stats.map((stat) => (
             <div className="member-stat-card" key={stat.label}>
@@ -49,28 +91,78 @@ const MemberDashboard = () => {
           ))}
         </section>
 
-        <section className="member-quicklinks">
-          {quickLinks.map((link) => (
-            <a className="member-quicklink-card" href={link.to} key={link.label}>
-              <span>{link.icon}</span>
-              <span>{link.label}</span>
-              <FaArrowRight style={{ marginLeft: 10, fontSize: '1.1rem' }} />
-            </a>
-          ))}
-        </section>
-
-        <section className="member-activity">
-          <h2>Recent Activity</h2>
-          <ul>
-            {recentActivity.map((item) => (
-              <li key={item.id}>
-                <span className="activity-action">{item.action}</span>
-                <span className="activity-time">{item.time}</span>
-              </li>
-            ))}
-          </ul>
+       
+        <section className="medicine-table-section">
+          <h2>All Medicines</h2>
+          <div className="table-scroll-container">
+            <table className="medicine-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Company</th>
+                  <th>Available Quantity</th>
+                  <th>Type</th>
+                  <th>Price</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {medicines.map((medicine) => (
+                  <tr key={medicine.id}>
+                    <td>{medicine.id}</td>
+                    <td>{medicine.name}</td>
+                    <td>{medicine.company}</td>
+                    <td>{medicine.availableQuantity}</td>
+                    <td>{medicine.type}</td>
+                    <td>{medicine.price}</td>
+                    <td>
+                      <button
+                        className="add-to-cart-btn"
+                        onClick={() => openCartModal(medicine)}
+                      >
+                        Add to Cart
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
       </main>
+
+
+      {showModal && selectedMedicine && (
+
+        <div className="modal-overlay">
+           <div className="modal-content">
+              <h3>{selectedMedicine.name}</h3>
+             <p>Price: ₹{selectedMedicine.price}</p>
+
+              <div style={{ margin: "15px 0" }}>
+              <label>Quantity: </label>
+              <input
+
+                type="number"
+               min="1"
+               value={selectedQuantity}
+                onChange={(e) => setSelectedQuantity(Number(e.target.value))}
+              />
+            </div>
+
+            <div className="modal-buttons">
+              <button className="confirm-btn" onClick={confirmAddToCart}>
+               Confirm
+             </button>
+              <button className="cancel-btn" onClick={() => setShowModal(false)}>
+               Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

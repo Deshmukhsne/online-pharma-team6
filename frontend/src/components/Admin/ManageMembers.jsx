@@ -1,85 +1,91 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import AdminSidebar from '../Admin/AdminSidebar';
 
-import AdminSidebar from "./AdminSidebar";
-import '../../styles/AdminDashboard.css';
 import '../../styles/ManageMembers.css';
 
 function ManageMembers() {
     const [collapsed, setCollapsed] = useState(true);
     const [members, setMembers] = useState([]);
-
-    const [showModal, setShowModal] = useState(true);
+    const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState({
-        id: '', name: '', gender: '', dob: '', email: '',
-        mobile: '', address: '', status: 'Pending'
+        name: '',
+        email: '',
+        mobile: '',
+        address: '',
+        password: '',
+        dob: '', 
     });
-    useEffect(() => {
-        fetch("http://localhost:8080/api/members")
-            .then(res => res.json())
-            .then(data => {
-                console.log("Fetched members:", data);
-                if (Array.isArray(data)) {
-                    setMembers(data);
-                } else {
-                    console.error("Expected array but got:", typeof data);
-                    setMembers([]); // Fallback to empty array to prevent crash
-                }
-            })
 
-            .catch(err => console.error("Failed to fetch members:", err));
+    useEffect(() => {
+        fetchMembers();
     }, []);
 
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleAddMember = (e) => {
-        e.preventDefault();
-        if (formData.name && formData.email) {
-            fetch("http://localhost:8080/api/members", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            })
-                .then(res => res.json())
-                .then(newMember => {
-                    setMembers([...members, newMember]);
-                    setFormData({
-                        id: '', name: '', gender: '', dob: '', email: '',
-                        mobile: '', address: '', status: 'Pending'
-                    });
-                    setShowModal(false);
-                })
-                .catch(err => console.error("Add member failed:", err));
+    const fetchMembers = async () => {
+        try {
+            const res = await axios.get('http://localhost:8080/api/members');
+            setMembers(res.data);
+        } catch (err) {
+            console.error('Error fetching members:', err);
         }
     };
 
-
-    const handleDelete = (id) => {
-        fetch(`http://localhost:8080/api/members/${id}`, {
-            method: "DELETE"
-        })
-            .then(() => {
-                const updated = members.filter((m) => m.id !== id);
-                setMembers(updated);
-            })
-            .catch(err => console.error("Delete failed:", err));
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8080/api/members/${id}`);
+            setMembers(prev => prev.filter(m => m.id !== id));
+        } catch (error) {
+            console.error('Delete failed:', error);
+        }
     };
 
-
-    const handleStatusChange = (id, newStatus) => {
-        fetch(`http://localhost:8080/api/members/${id}/status?status=${newStatus}`, {
-            method: "PUT"
-        })
-            .then(res => res.json())
-            .then(updatedMember => {
-                const updated = members.map(m => m.id === id ? updatedMember : m);
-                setMembers(updated);
-            })
-            .catch(err => console.error("Status update failed:", err));
+    const handleStatusChange = async (id, newStatus) => {
+        try {
+            const res = await axios.put(`http://localhost:8080/api/members/${id}/status`, null, {
+                params: { status: newStatus }
+            });
+            setMembers(prev =>
+                prev.map(member =>
+                    member.id === id ? res.data : member
+                )
+            );
+        } catch (error) {
+            console.error('Status update failed:', error);
+        }
     };
 
+    const handleChange = (e) => {
+        setFormData(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post('http://localhost:8080/api/members', formData);
+            setMembers(prev => [...prev, res.data]);
+            setFormData({
+                name: '',
+                email: '',
+                mobile: '',
+                address: '',
+                password: '',
+                dob: '',
+            });
+            setShowForm(false);
+        } catch (err) {
+            console.error('Error adding member:', err);
+            alert("Failed to add member. Please check the form fields.");
+        }
+    };
+
+    const getStatus = (member) => {
+        if (member.disabled === true) return 'Declined';
+        if (member.disabled === false) return 'Approved';
+        return 'Pending';
+    };
 
     return (
         <div className="admin-dashboard-root">
@@ -88,85 +94,74 @@ function ManageMembers() {
                 className="admin-main-content"
                 style={{ marginLeft: collapsed ? 60 : 250, width: `calc(100vw - ${collapsed ? 60 : 250}px)` }}
             >
-                <header className="admin-header">
+                <header className="admin-header2">
                     <div className="admin-title">Manage Members</div>
-                    <div className="admin-user">
-                        <span className="admin-avatar">A</span>
-                        <span>Admin</span>
-                    </div>
+                   
                 </header>
 
                 <section className="manage-members-section">
                     <div className="top-bar">
-                        <button className="add-member-btn" onClick={() => setShowModal(true)}>+ Add Member</button>
+                        <button className="add-btn" onClick={() => setShowForm(!showForm)}>
+                            {showForm ? 'Cancel' : 'Add Member'}
+                        </button>
                     </div>
+
+                    {showForm && (
+                        <div className="modal-overlay">
+                            <div className="modal-content">
+                                <h2>Add New Member</h2>
+                                <form className="member-form" onSubmit={handleSubmit}>
+                                    <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
+                                    <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+                                    <input type="text" name="mobile" placeholder="Mobile" value={formData.mobile} onChange={handleChange} required />
+                                    <input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} required />
+                                    <input type="date" name="dob" placeholder="Date of Birth" value={formData.dob} onChange={handleChange} required />
+                                    <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+                                    <div className="modal-actions">
+                                        <button type="submit" className="submit-btn">Submit</button>
+                                        <button type="button" className="cancel-btn" onClick={() => setShowForm(false)}>Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
 
                     <table className="member-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Name</th>
-                                <th>Gender</th>
-                                <th>DOB</th>
                                 <th>Email</th>
                                 <th>Mobile</th>
-                                <th>Address</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {members.length === 0 ? (
-                                <tr>
-                                    <td colSpan="9" className="no-data">No members added yet.</td>
-                                </tr>
+                                <tr><td colSpan="5">No members found.</td></tr>
                             ) : (
-                                members.map((member, index) => (
-                                    <tr key={index}>
-                                        <td>{member.id}</td>
+                                members.map(member => (
+                                    <tr key={member.id}>
                                         <td>{member.name}</td>
-                                        <td>{member.gender}</td>
-                                        <td>{member.dob}</td>
                                         <td>{member.email}</td>
                                         <td>{member.mobile}</td>
-                                        <td>{member.address}</td>
-                                        <td>{member.status}</td>
                                         <td>
-                                            {member.status === 'Pending' && (
-                                                <>
-                                                    <button className="accept-btn" onClick={() => handleStatusChange(member.id, 'Accepted')}>Accept</button>
-                                                    <button className="decline-btn" onClick={() => handleStatusChange(member.id, 'Declined')}>Decline</button>
-
-                                                </>
-                                            )}
-                                            <button className="delete-btn" onClick={() => handleDelete(member.id)}>Delete</button>
-
+                                            <span className={`status-pill status-${getStatus(member).toLowerCase()}`}>
+                                                {getStatus(member)}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div className="action-buttons">
+                                                <button className="action-btn accept-btn" onClick={() => handleStatusChange(member.id, 'Approved')}>Accept</button>
+                                                <button className="action-btn decline-btn" onClick={() => handleStatusChange(member.id, 'Declined' )}>Decline</button>
+                                                <button className="action-btn delete-btn" onClick={() => handleDelete(member.id)}>Delete</button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
                             )}
                         </tbody>
                     </table>
-
-                    {showModal && (
-                        <div className="modal-overlay">
-                            <div className="modal">
-                                <h3>Add New Member</h3>
-                                <form onSubmit={handleAddMember}>
-                                    <input name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
-                                    <input name="gender" value={formData.gender} onChange={handleChange} placeholder="Gender" />
-                                    <input name="dob" value={formData.dob} onChange={handleChange} placeholder="DOB" type="date" />
-                                    <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
-                                    <input name="mobile" value={formData.mobile} onChange={handleChange} placeholder="Mobile" />
-                                    <input name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
-                                    <div className="modal-buttons">
-                                        <button type="submit" className="submit-btn">Add</button>
-                                        <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    )}
                 </section>
             </main>
         </div>

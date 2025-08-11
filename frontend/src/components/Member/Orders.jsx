@@ -1,31 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import MemberSidebar from './MemberSidebar';
-import { FaClipboardList } from 'react-icons/fa';
-import '../../styles/Orders.css';
+import React, { useEffect, useState } from "react";
+import MemberSidebar from "./Membersidebar";
+import "../../styles/Orders.css";
+import axios from "axios";
+
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const mockOrders = [
-      {
-        id: 1,
-        drugName: 'Paracetamol',
-        quantity: 2,
-        totalPrice: 50,
-        status: 'Delivered',
-        date: '2025-07-28',
-      },
-      {
-        id: 2,
-        drugName: 'Amoxicillin',
-        quantity: 1,
-        totalPrice: 90,
-        status: 'Pending',
-        date: '2025-07-30',
-      },
-    ];
-    setOrders(mockOrders);
+    axios
+      .get("http://localhost:8080/api/orders/all")
+      .then((response) => setOrders(response.data))
+      .catch((error) => console.error("Failed to fetch orders", error));
   }, []);
 
   return (
@@ -36,35 +22,37 @@ const Orders = () => {
 
       <div className="orders-main">
         <header className="orders-header">
-          <FaClipboardList className="orders-icon" />
-          <h2>My Orders</h2>
+          <div className="orders-logo">
+            
+            <h2 className="heading1">My Orders</h2>
+          </div>
         </header>
 
         <div className="orders-card">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Drug Name</th>
-                <th>Quantity</th>
-                <th>Total Price</th>
-                <th>Status</th>
-                <th>Order Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order, idx) => (
-                <tr key={order.id}>
-                  <td>{idx + 1}</td>
-                  <td>{order.drugName}</td>
-                  <td>{order.quantity}</td>
-                  <td>₹{order.totalPrice}</td>
-                  <td>{order.status}</td>
-                  <td>{order.date}</td>
+          <div className="orders-table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Medicine Name</th>
+                  <th>Quantity</th>
+                  <th>Total Price</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {orders.map((order, idx) => (
+                  <tr key={order.id}>
+                    <td data-label="#"> {idx + 1} </td>
+                    <td data-label="Medicine Name">{order.name}</td>
+                    <td data-label="Quantity">{order.quantity}</td>
+                    <td data-label="Total Price">₹{order.price}</td>
+                    <td data-label="Status">{order.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

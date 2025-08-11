@@ -70,28 +70,47 @@ An online platform for users to order medicines/drugs securely. The system suppo
 1. **Clone the Repository**
    ```bash
    git clone https://github.com/Deshmukhsne/online-pharma-team6.git
-<img width="1884" height="902" alt="image" src="https://github.com/user-attachments/assets/177498b7-9eed-4a27-876b-7ddbf8b32d3b" />
-<img width="1893" height="912" alt="image" src="https://github.com/user-attachments/assets/e537fe02-8d2f-4ae0-99d6-d663ff918e62" />
-<img width="1883" height="910" alt="image" src="https://github.com/user-attachments/assets/4a9613f8-fb01-47b8-abfc-ac276f183de9" />
-<img width="1880" height="887" alt="image" src="https://github.com/user-attachments/assets/1865fac4-bd67-4914-8933-9e7f2d067d95" />
-<img width="1869" height="890" alt="image" src="https://github.com/user-attachments/assets/355e7f4b-26e1-43e7-b2b6-4e1d44281a2e" />
-<img width="1878" height="878" alt="image" src="https://github.com/user-attachments/assets/25f73a08-7592-4a3c-889d-477805f704e9" />
+### Login Admin/Member
+
+<img width="1366" height="768" alt="Screenshot (46)" src="https://github.com/user-attachments/assets/a69a9279-4f86-4bfb-be4c-bc169ad2ac6f" />
+
+### Forgot Password
+
+<img width="1366" height="768" alt="Screenshot (51)" src="https://github.com/user-attachments/assets/1addf9a4-bd44-4842-88fa-d01001d6f6fe" />
+
+### Registration [Member]
+
+<img width="1366" height="768" alt="Screenshot (41)" src="https://github.com/user-attachments/assets/93be1a3c-c0e2-4b65-a052-80cb4b3fa2d0" />
+
+### Admin Dashboard 
+
+<img width="1366" height="768" alt="Screenshot (47)" src="https://github.com/user-attachments/assets/be263c08-358a-4a42-bf92-434d435afd86" />
+
+<img width="1366" height="768" alt="Screenshot (48)" src="https://github.com/user-attachments/assets/e8d8cbe3-2961-4637-9a8e-66bbe37e6a6b" />
+
+<img width="1366" height="768" alt="Screenshot (52)" src="https://github.com/user-attachments/assets/1f8c8250-c040-4171-9f75-fc8c18689708" />
+
+<img width="1366" height="768" alt="Screenshot (49)" src="https://github.com/user-attachments/assets/bcdcdda0-da26-4038-8de9-464e6242b647" />
+
 <img width="1917" height="916" alt="image" src="https://github.com/user-attachments/assets/2cf22d64-df21-493f-be5b-85c33a0f3179" />
-<img width="1888" height="904" alt="image" src="https://github.com/user-attachments/assets/962ff6b6-2d58-489e-b667-349a829c3831" />
-<img width="1893" height="913" alt="image" src="https://github.com/user-attachments/assets/7b0d769c-2734-416a-99e3-e9d90d9f7aff" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/89fe1fc5-e4de-49f8-9bbe-82fd8ebfaa13" />
+
+<img width="1366" height="768" alt="Screenshot (50)" src="https://github.com/user-attachments/assets/2b74e00b-fed1-4da1-8ba9-843a65fb8e23" />
+
+
+### Member Dashboard
+
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/9036b04e-648a-4214-9dbe-ee419a5d3c0d" />
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/89fe1fc5-e4de-49f8-9bbe-82fd8ebfaa13" />
+
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/280939be-bc9a-46ea-8e2b-38b2477f877a" />
+
+<img width="1366" height="768" alt="Screenshot (38)" src="https://github.com/user-attachments/assets/8e79a613-4329-4c4f-9227-c2404251a01f" />
+
+<img width="1366" height="768" alt="Screenshot (39)" src="https://github.com/user-attachments/assets/de4b60cd-d351-4900-a7ec-5dccd006637d" />
+
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/75d89512-0e73-4456-ab52-c31ce346aa65" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/f050a4f1-acc7-4cf6-a763-67aefdbd153b" />
 
 
 
 
-
-
-
-
-
-
-   

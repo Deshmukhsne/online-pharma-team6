@@ -1,243 +1,159 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import AdminSidebar from '../Admin/AdminSidebar';
+import '../../styles/AdminDashboard.css';
 import '../../styles/AddDrug.css';
-import { FaCapsules } from 'react-icons/fa';
 
 function AddDrug() {
-    const [collapsed, setCollapsed] = useState(true);
-    const [formData, setFormData] = useState({
-        id: '',
+  const [collapsed, setCollapsed] = useState(true);
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    type: '',
+    price: '',
+    availableQuantity: '',
+    rating: '',
+    banned: false,
+    description: '',
+    imageFile: null
+  });
+  const [preview, setPreview] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
+    if (type === 'file') {
+      const file = files[0];
+      setFormData((prev) => ({ ...prev, imageFile: file }));
+      if (file) {
+        setPreview(URL.createObjectURL(file));
+      } else {
+        setPreview(null);
+      }
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formatted = new FormData();
+    formatted.append('name', formData.name);
+    formatted.append('company', formData.company);
+    formatted.append('type', formData.type);
+    formatted.append('price', parseFloat(formData.price));
+    formatted.append('availableQuantity', parseInt(formData.availableQuantity));
+    formatted.append('rating', parseInt(formData.rating));
+    formatted.append('banned', formData.banned);
+    formatted.append('description', formData.description);
+    if (formData.imageFile) {
+      formatted.append('imageFile', formData.imageFile);
+    }
+
+    try {
+      await axios.post('http://localhost:8080/api/medicines/add', formatted); {
+       
+      }
+      alert('Medicine added successfully!');
+      setFormData({
         name: '',
         company: '',
         type: '',
         price: '',
-        quantity: '',
+        availableQuantity: '',
         rating: '',
-        banned: '',
+        banned: false,
         description: '',
-        image: null,
-    });
+        imageFile: null
+      });
+      setPreview(null);
+    } catch (err) {
+      console.error('Error uploading medicine:', err.response?.data || err);
+      alert('Error adding medicine. See console.');
+    }
+  };
 
-    const [imagePreview, setImagePreview] = useState(null);
-    const [success, setSuccess] = useState(false);
+  return (
+    <div className="admin-dashboard-root">
+      <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+      <main
+        className="admin-main-content"
+        style={{ marginLeft: collapsed ? 60 : 250, width: `calc(100vw - ${collapsed ? 60 : 250}px)` }}
+      >
+        <section className="add-drug-section">
+          <form className="drug-form" onSubmit={handleSubmit}>
+            <h2 className="form-heading">Add New Medicine</h2>
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+            <div className="form-grid">
+              <div className="form-group">
+                <label htmlFor="name">Medicine Name</label>
+                <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+              </div>
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setFormData((prev) => ({ ...prev, image: file }));
-            setImagePreview(URL.createObjectURL(file));
-        }
-    };
+              <div className="form-group">
+                <label htmlFor="company">Company</label>
+                <input type="text" name="company" value={formData.company} onChange={handleChange} required />
+              </div>
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+              <div className="form-group">
+                <label htmlFor="type">Type</label>
+                <input type="text" name="type" value={formData.type} onChange={handleChange} required />
+              </div>
 
-        const form = new FormData();
-        Object.keys(formData).forEach(key => {
-            if (formData[key]) form.append(key, formData[key]);
-        });
+              <div className="form-group">
+                <label htmlFor="price">Price</label>
+                <input type="number" name="price" value={formData.price} onChange={handleChange} required />
+              </div>
 
-        try {
-            const response = await fetch('http://localhost:8080/api/drugs/add', {
-                method: 'POST',
-                body: form,
-            });
+              <div className="form-group">
+                <label htmlFor="availableQuantity">Available Quantity</label>
+                <input type="number" name="availableQuantity" value={formData.availableQuantity} onChange={handleChange} required />
+              </div>
 
-            if (response.ok) {
-                setSuccess(true);
-                setTimeout(() => setSuccess(false), 2000);
-                setFormData({
-                    id: '',
-                    name: '',
-                    company: '',
-                    type: '',
-                    price: '',
-                    quantity: '',
-                    rating: '',
-                    banned: '',
-                    description: '',
-                    image: null,
-                });
-                setImagePreview(null);
-            } else {
-                const errorText = await response.text();
-                alert("Upload failed: " + errorText);
-            }
-        } catch (err) {
-            alert("Error uploading drug: " + err.message);
-            console.error(err);
-        }
-    };
+              <div className="form-group">
+                <label htmlFor="rating">Rating (1-5)</label>
+                <input type="number" name="rating" value={formData.rating} min="1" max="5" onChange={handleChange} required />
+              </div>
 
+              <div className="form-group">
+                <label htmlFor="banned">Is Banned?</label>
+                <input type="checkbox" name="banned" checked={formData.banned} onChange={handleChange} />
+              </div>
 
-    return (
-        <div className="admin-dashboard-root">
-            <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-            <main
-                className="admin-main-content"
-                style={{ marginLeft: collapsed ? 60 : 250, width: `calc(100vw - ${collapsed ? 60 : 250}px)` }}
-            >
-                <header className="admin-header">
-                    <div className="admin-title"><FaCapsules style={{ marginRight: 8 }} /> Add Drug</div>
-                    <div className="admin-user">
-                        <span className="admin-avatar">A</span>
-                        <span>Admin</span>
-                    </div>
-                </header>
+              <div className="form-group">
+                <label htmlFor="imageFile">Select Image</label>
+                <div className="choose-file-btn">
+                  <span className="choose-file-btn-label">Choose File</span>
+                  <input
+                    type="file"
+                    name="imageFile"
+                    accept="image/*"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </div>
 
-                <section className="add-drug-section">
-                    <form className="drug-form" onSubmit={handleSubmit}>
-                        <h3 className="form-heading">
-                            <FaCapsules style={{ marginRight: 10, color: "#007bff" }} />
-                            Add New Drug
-                        </h3>
-                        <p className="form-subheading">Fill in all the necessary details below</p>
+            <div className="form-group">
+              <label htmlFor="description">Description</label>
+              <textarea name="description" rows="4" value={formData.description} onChange={handleChange} required />
+            </div>
 
-                        <div className="form-grid">
-                            <div className="form-group">
-                                <label>Drug ID</label>
-                                <input
-                                    type="text"
-                                    name="id"
-                                    placeholder="Enter drug ID"
-                                    value={formData.id}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
+            {preview && (
+              <div className="image-preview">
+                <img src={preview} alt="Preview" />
+              </div>
+            )}
 
-                            <div className="form-group">
-                                <label>Name</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    placeholder="Enter drug name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Company</label>
-                                <input
-                                    type="text"
-                                    name="company"
-                                    placeholder="Enter company name"
-                                    value={formData.company}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Type</label>
-                                <input
-                                    type="text"
-                                    name="type"
-                                    placeholder="Enter drug type"
-                                    value={formData.type}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div className="form-grid">
-                            <div className="form-group">
-                                <label>Price (₹)</label>
-                                <input
-                                    type="number"
-                                    name="price"
-                                    placeholder="Enter price"
-                                    value={formData.price}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Quantity (units)</label>
-                                <input
-                                    type="number"
-                                    name="quantity"
-                                    placeholder="Enter quantity"
-                                    value={formData.quantity}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Rating (1-5)</label>
-                                <input
-                                    type="number"
-                                    name="rating"
-                                    placeholder="Enter rating"
-                                    value={formData.rating}
-                                    onChange={handleChange}
-                                    min="1"
-                                    max="5"
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Banned (yes/no)</label>
-                                <select
-                                    name="banned"
-                                    value={formData.banned}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="">Select</option>
-                                    <option value="yes">Yes</option>
-                                    <option value="no">No</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="form-grid">
-                            <div className="form-group">
-                                <label>Description</label>
-                                <textarea
-                                    name="description"
-                                    placeholder="Enter description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    rows="4"
-                                    required
-                                />
-                            </div>
-
-                            <div
-                                className="dropzone"
-                                onClick={() => document.getElementById("imageUpload").click()}
-                            >
-                                <p>Click or drag image here</p>
-                                <input
-                                    id="imageUpload"
-                                    type="file"
-                                    accept="image/*"
-                                    style={{ display: "none" }}
-                                    onChange={handleImageChange}
-                                />
-                                {imagePreview && <img src={imagePreview} alt="Preview" style={{ maxWidth: "100%", marginTop: 10 }} />}
-                            </div>
-                        </div>
-
-                        <button type="submit" className="submit-btn">Add Drug</button>
-                        {success && <div className="success-msg">Drug added successfully!</div>}
-                    </form>
-                </section>
-            </main>
-        </div>
-    );
+            <button type="submit" className="submit-btn">Add Medicine</button>
+          </form>
+        </section>
+      </main>
+    </div>
+  );
 }
 
 export default AddDrug;
