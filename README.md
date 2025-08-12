@@ -99,7 +99,9 @@ An online platform for users to order medicines/drugs securely. The system suppo
 
 ### Member Dashboard
 
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/9036b04e-648a-4214-9dbe-ee419a5d3c0d" />
+<img width="1366" height="768" alt="1_Dashbord" src="https://github.com/user-attachments/assets/deb41ef8-1f0a-4137-bc97-c8a9e9bc1dbe" />
+
+<img width="1366" height="768" alt="2_add quantity" src="https://github.com/user-attachments/assets/19716319-993f-4657-bee7-92cf58f26de7" />
 
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/89fe1fc5-e4de-49f8-9bbe-82fd8ebfaa13" />
 
