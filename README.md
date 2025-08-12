@@ -39,12 +39,12 @@ An online platform for users to order medicines/drugs securely. The system suppo
 ---
 
 ### 🛒 4. Medicine Order Module (Members)
-- Search and order drugs by name
+- order drugs
+- Drug quantity updated before add drugs into the cart.
 - Add multiple drugs to cart
 - Automatically calculate total price
-- Complete order (no payment gateway included)
+- Complete order (payment gateway included)
 - Cart empties after order completion
-- Drug quantity updated after purchase
 - Block orders if:
   - Drug quantity is zero
   - Requested quantity > available stock
