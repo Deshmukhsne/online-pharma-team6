@@ -159,7 +159,7 @@ body {
 }
 
 .table-scroll-container {
-  max-height: 360px;
+  max-height: 370px;
   overflow-y: auto;
   border-radius: var(--radius);
   border: 1px solid var(--member-border);

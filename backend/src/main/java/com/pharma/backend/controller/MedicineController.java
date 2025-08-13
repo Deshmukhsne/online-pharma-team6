@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.MediaType;
+
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -56,7 +58,16 @@ public class MedicineController {
             return ResponseEntity.badRequest().body("Error saving medicine: " + e.getMessage());
         }
     }
-
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+        Medicine med = medicineService.findById(id);
+        if (med != null && med.getImageData() != null) {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.valueOf(med.getImageType()))
+                    .body(med.getImageData());
+        }
+        return ResponseEntity.notFound().build();
+    }
     
     @PutMapping("/{id}")
     public ResponseEntity<?> updateMedicine(@PathVariable Long id, @RequestBody Medicine updatedMedicine) {
