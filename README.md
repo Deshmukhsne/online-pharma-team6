@@ -53,7 +53,6 @@ An online platform for users to order medicines/drugs securely. The system suppo
 
 
 
----
 
 ## 🚀 Getting Started
 
@@ -69,7 +68,7 @@ An online platform for users to order medicines/drugs securely. The system suppo
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/Deshmukhsne/online-pharma-team6.git
+   https://github.com/NileshChavan-academicprojects/Online_Pharma.git
 ### Login Admin/Member
 
 <img width="1366" height="768" alt="Screenshot (46)" src="https://github.com/user-attachments/assets/a69a9279-4f86-4bfb-be4c-bc169ad2ac6f" />
